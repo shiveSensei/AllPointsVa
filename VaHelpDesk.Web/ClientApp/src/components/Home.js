@@ -22,8 +22,8 @@ export class Home extends Component {
                 <thead>
                     <tr >
                         <th>Serial</th>
-                        <th>Device</th>
-                        <th>Part Number</th>
+                        <th>Device Name</th>
+                        <th>Part Number Id</th>
                     </tr>
                 </thead>
 
