@@ -1,24 +1,38 @@
 import React, { Component } from 'react';
-import { Col, Grid, Row, Table, Carousel, Jumbotron, Image, ProgressBar, Panel } from 'react-bootstrap';
+import { Table, Media, Badge, Well, Image, ProgressBar, Button, Label, Panel, Glyphicon } from 'react-bootstrap';
 
-export class Home extends Component {
-    displayName = Home.name
+import { Link } from 'react-router-dom';
+
+export class SingleFacility extends Component {
+    displayName = SingleFacility.name
 
     constructor(props) {
         super(props);
+
         this.state = {
+            facility: [],
             hardwares: [],
+            facilityId: this.props.match.params.id,
             loading: true
         };
 
-        fetch('api/Hardwares')
+        fetch('/api/Facilities/' + this.state.facilityId)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ facility: data });
+                console.log(data);
+            });
+
+        fetch('/api/Hardwares/')
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data, loading: false });
-                console.log(data)
+                console.log(data);
             });
-    }
 
+
+       
+    }
     static CreateTable(hardwares) {
         return (
             <Table responsive>
@@ -48,20 +62,20 @@ export class Home extends Component {
     }
 
     render() {
+        let filteredHardwares = this.state.hardwares.filter((h) => h.facilityId == this.state.facilityId);
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
-            : Home.CreateTable(this.state.hardwares);
+            : SingleFacility.CreateTable(filteredHardwares);
 
-       
+
 
         return (
             <div>
-                <h1>ALL POINTS VA HELPDESK</h1>
+                <h1>{this.state.facility.name}</h1>
                 {content}
 
             </div>
+        )
 
-            )
-  
     }
 }

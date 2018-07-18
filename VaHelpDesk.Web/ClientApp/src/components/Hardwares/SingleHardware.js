@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { Col, Grid, Row, Table, Carousel, Jumbotron, Image, ProgressBar, Panel } from 'react-bootstrap';
+import { Table, Media, Badge, Well, Image, ProgressBar, Button, Label, Panel, Glyphicon } from 'react-bootstrap';
 
-export class Home extends Component {
-    displayName = Home.name
+import { Link } from 'react-router-dom';
+
+export class SingleHardware extends Component {
+    displayName = SingleHardware.name
 
     constructor(props) {
         super(props);
+
         this.state = {
             hardwares: [],
+            hardwareId: this.props.match.params.id,
             loading: true
         };
 
-        fetch('api/Hardwares')
+        fetch('/api/hardwares')
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data, loading: false });
-                console.log(data)
+                console.log(data);
             });
-    }
 
+        
+    }
     static CreateTable(hardwares) {
         return (
             <Table responsive>
@@ -48,20 +53,21 @@ export class Home extends Component {
     }
 
     render() {
+
+        let hardware = this.state.hardwares.filter((h) => h.id == this.state.hardwareId)
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
-            : Home.CreateTable(this.state.hardwares);
+            : SingleHardware.CreateTable(hardware);
 
-       
+
 
         return (
             <div>
-                <h1>ALL POINTS VA HELPDESK</h1>
+                <h1>Hardwares</h1>
                 {content}
-
             </div>
 
-            )
-  
+        )
+
     }
 }
