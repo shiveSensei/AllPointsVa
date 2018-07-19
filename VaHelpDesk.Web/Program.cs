@@ -21,7 +21,6 @@ namespace VaHelpDesk.Web
                 try
                 {
                     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-                    context.Database.Migrate();
                     DbInitilizer.Initialize(context);
                 }
                 catch (Exception ex)

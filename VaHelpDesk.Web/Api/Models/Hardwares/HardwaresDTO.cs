@@ -12,6 +12,7 @@ namespace VaHelpDesk.Web.Api.Models.Hardwares
         public string Name { get; set; }
         public int Serial { get; set; }
 
+        [DefaultValue("hardware")]
         public string Class { get; set; } //class is always hardware
 
         [DefaultValue(false)]
@@ -22,16 +23,12 @@ namespace VaHelpDesk.Web.Api.Models.Hardwares
         public int PartNumId { get; set; }
         public virtual PartNum PartNum { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public DateTime ShipDate { get; set; }
-
+     
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime DeliveryDate { get; set; } //Call this the start of the warranty. Put expected delivery date, update if necessary
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime WarrantyEnd { get; set; } // 365 days after delivery date
-
-        public int TrackingNum { get; set; }
 
         public int FacilityId { get; set; }
         public int CategoryId { get; set; }

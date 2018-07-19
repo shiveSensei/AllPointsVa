@@ -10,28 +10,141 @@ export class AddHardware extends Component {
 
         this.state = {
             hardwares: [],
+            partNums: [],
+            facilities: [],
+            kinds: [],
+            categories: [],
+            name: '',
+            serial: '',
+            partNumId: '',
+            delDate: '',
+            facility: '',
+            cat: '',
+            kind: '',
             response: '',
             loading: true
         };
 
-        
-           
+        fetch('/api/Facilities')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ facilities: data});
+            });
+
+        fetch('/api/PartNums')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ partNums: data});
+            });
+
+        fetch('/api/Kinds')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ kinds: data });
+                console.log(this.state.kinds)
+            });
+
+        fetch('/api/Categories')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ categories: data, loading: false });
+            });
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+         
     }
 
-    OnSingleSubmit() {
+    handleChange(e) {
+        this.setState({ [e.target.name]: e.target.value })
+        console.log(this.state)
+    }
 
-      
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log(this.state.partNums)
+        //Build new hardware object from state
+        let newHardware = {
+            "name": this.state.partNums.find((p) => p.id == this.state.partNumId).name,
+            "serial": this.state.serial,
+            "class": "hardware",
+            "inService": false,
+            "warranty": true,
+            "partNumId": this.state.partNumId,
+            //"partNum": {
+            //    "id": this.state.partNums.find((p) => p.id == this.state.partNumId).id,
+            //    "prodN": this.state.partNums.find((p) => p.id == this.state.partNumId).prodN,
+            //    "name": this.state.partNums.find((p) => p.id == this.state.partNumId).name,
+            //    "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
+            //    "kindId": this.state.partNums.find((p) => p.id == this.state.partNumId).kindId
+            //}, //finish this logic
+            "deliveryDate": "2018-07-19T16:22:56.495Z",
+            "warrantyEnd": "2018-07-19T16:22:56.495Z",
+            "trackingNum": 2345,
+            "facilityId": this.state.facilityId,
+            "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
+            "kindId": this.state.partNums.find((p) => p.id == this.state.partNumId).kindId
+            //"facility": this.state.facilities.filter((f) => f.id == this.state.facilityId)
+           
+          //"category": this.state.categories.filter((c) => c.id == this.state.categoryId),
+          //"kind": this.state.kinds.filter((k) => k.id == this.state.kindId)
+        };
 
+        newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
+        console.log(newHardware.partNum);
+
+          //Post to api route
         fetch('/api/hardwares', {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                hardwares: this.state.hardwares,
-            })
+            body: JSON.stringify(newHardware)
+        }).then(response => {
+            if (response.status >= 400) {
+                // console.log(response);
+                //  throw new Error('Throw Error');
+            }
+
+            this.setState({ response: response, loading: false });
+            console.log('State: ', this.state.response);
+
+            //   return (response.json());
+        })
+        
+
+    }
+
+    OnSingleSubmit() {
+
+        //Build new hardware object from state
+        let newHardware = {
+            "name": this.state.name,
+            "serial": this.state.serial,
+            "class": "hardware",
+            "inService": false,
+            "warranty": true,
+            "partNumId": this.state.partNumId,
+            "partNum": this.state.partNums.filter((p) => p.id == this.state.partNumId), //finish this logic
+            "deliveryDate": this.state.delDate,
+            "warrantyEnd": "2018-07-19T16:22:56.495Z",
+            "facilityId": this.state.facility.id,
+            "categoryId": this.state.partNums.filter((p) => p.id == this.state.partNumId).categoryId,
+            "kindId": this.state.partNums.filter((p) => p.id == this.state.partNumId).kindId,
+            "facility": this.state.facilities.filter((f) => f.id == this.state.facilityId),
+            "category": '',
+            "kind": ''
+        };
+
+        //Post to api route
+        fetch('/api/hardwares', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newHardware)
         }).then(response => {
             if (response.status >= 400) {
                 // console.log(response);
@@ -46,46 +159,67 @@ export class AddHardware extends Component {
 
     }
 
-    static RenderAddHardwareForm() {
+    RenderAddHardwareForm(partNums, facilities) {
 
         return (
             <form>
                 <FormGroup>
                     <ControlLabel>
                         Serial Number
-                        </ControlLabel>
+                    </ControlLabel>
                     <FormControl
                         type="text"
+                        name="serial"
+                        value={this.state.serial}
+                        placeholder="CND3245LL"
+                        onChange={this.handleChange}
                     />
                 </FormGroup>
 
-                <FormGroup controlId="formControlsSelect">
+                <FormGroup>
                     <ControlLabel>Part Number</ControlLabel>
-                    <FormControl componentClass="select" placeholder="select">
-                        <option value="select">select</option>
-                        <option value="other">...</option>
+
+                    <FormControl
+                        componentClass="select"
+                        name="partNumId"
+                        value={this.state.partNumId}
+                        onChange={this.handleChange}
+
+                    >
+                        <option value="select">Select..</option>
+                        {partNums.map(partNum =>
+                           
+
+                            <option value={partNum.id}>{partNum.name}</option>
+                        )}
                     </FormControl>
                 </FormGroup>
 
                 <FormGroup>
-                    <ControlLabel>
-                        Ship Date
-                        </ControlLabel>
+                    <ControlLabel> Ship Date </ControlLabel>
                     <FormControl
                         type="text"
                     />
                 </FormGroup>
 
-                <FormGroup controlId="formControlsSelect">
+                <FormGroup >
                     <ControlLabel>Facility</ControlLabel>
-                    <FormControl componentClass="select" placeholder="select">
-                        <option value="select">select</option>
-                        <option value="other">...</option>
+
+                    <FormControl
+                        componentClass="select"
+                        name="facilityId"
+                        value={this.state.facilityId}
+                        onChange={this.handleChange}
+                    >
+                        <option value="select">Select..</option>
+                        {facilities.map(facility =>
+                                <option value={facility.id}>{facility.name}</option>
+                        )}
                     </FormControl>
                 </FormGroup>
 
-               
-                <Button type="submit">Submit</Button>
+
+                <Button type="submit" onClick={this.handleSubmit}>Submit</Button>
             </form>
             )
         
@@ -109,9 +243,9 @@ export class AddHardware extends Component {
 
     render() {
 
-        let content = AddHardware.RenderAddHardwareForm();
-        //    ? <div><ProgressBar active now={45} /></div>
-        //    : SingleFacility.CreateTable(filteredHardwares);
+        let content = this.state.loading
+            ? <div><ProgressBar active now={45} /></div>
+            : this.RenderAddHardwareForm(this.state.partNums, this.state.facilities);
 
 
 

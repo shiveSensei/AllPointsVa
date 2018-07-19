@@ -18,6 +18,10 @@ namespace VaHelpDesk.Web.Data
         
         public static void Initialize(DataContext context)
         {
+            if (context.Facilities.Any())
+            {
+                return; //DB has been seeded
+            }
             var facilities = new Facility[] {
                 new Facility
                 {
@@ -75,26 +79,20 @@ namespace VaHelpDesk.Web.Data
                 new Category
                 {
                     Name = "Monitor",
-                    PartNums = new List<PartNum>()
                 },
                 new Category
                 {
                     Name = "Laptop",
-                    PartNums = new List<PartNum>()
 
                 },
                 new Category
                 {
                     Name = "Desktop",
-                    PartNums = new List<PartNum>()
 
                 },
                 new Category
                 {
                     Name = "All In One",
-                    PartNums = new List<PartNum>()
-
-
                 }
             };
             foreach (Category c in categories)

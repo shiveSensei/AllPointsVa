@@ -9,8 +9,8 @@ namespace VaHelpDesk.Web.Data
         public void Configure(EntityTypeBuilder<PartNum> builder)
         {
             //set one to many relationship with Hardwares
-            builder.HasMany(p => p.Hardwares)
-                .WithOne(h => h.PartNum).OnDelete(DeleteBehavior.SetNull);
+           // builder.HasMany(p => p.Hardwares)
+           //     .WithOne(h => h.PartNum).OnDelete(DeleteBehavior.SetNull);
 
             //set one to many relationship with Kind
             //builder.HasOne(p => p.Kind)

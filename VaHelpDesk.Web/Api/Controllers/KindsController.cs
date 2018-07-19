@@ -1,71 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VaHelpDesk.Core.Features.Hardwares;
-using VaHelpDesk.Web.Api.Models.Hardwares;
+using VaHelpDesk.Core.Features.Shared;
 using VaHelpDesk.Web.Data;
 
-namespace VaHelpDesk.Web.Controllers
+namespace VaHelpDesk.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HardwaresController : ControllerBase
+    public class KindsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public HardwaresController(DataContext context)
+        public KindsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Hardwares
+        // GET: api/Kinds
         [HttpGet]
-        [ProducesResponseType(typeof(HardwareDTO[]), (int)HttpStatusCode.OK)]
-
-        public IEnumerable<Hardware> GetHardwares()
+        public IEnumerable<Kind> GetKinds()
         {
-            return _context.Hardwares;
+            return _context.Kinds;
         }
 
-        // GET: api/Hardwares/5
+        // GET: api/Kinds/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHardware([FromRoute] int id)
+        public async Task<IActionResult> GetKind([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hardware = await _context.Hardwares.FindAsync(id);
+            var kind = await _context.Kinds.FindAsync(id);
 
-            if (hardware == null)
+            if (kind == null)
             {
                 return NotFound();
             }
 
-            return Ok(hardware);
+            return Ok(kind);
         }
 
-        // PUT: api/Hardwares/5
+        // PUT: api/Kinds/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHardware([FromRoute] int id, [FromBody] Hardware hardware)
+        public async Task<IActionResult> PutKind([FromRoute] int id, [FromBody] Kind kind)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hardware.Id)
+            if (id != kind.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hardware).State = EntityState.Modified;
+            _context.Entry(kind).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +69,7 @@ namespace VaHelpDesk.Web.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HardwareExists(id))
+                if (!KindExists(id))
                 {
                     return NotFound();
                 }
@@ -86,46 +82,45 @@ namespace VaHelpDesk.Web.Controllers
             return NoContent();
         }
 
-        // POST: api/Hardwares
+        // POST: api/Kinds
         [HttpPost]
-        [ProducesResponseType(typeof(HardwareDTO[]), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PostHardware([FromBody] Hardware hardware)
+        public async Task<IActionResult> PostKind([FromBody] Kind kind)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Hardwares.Add(hardware);
+            _context.Kinds.Add(kind);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHardware", new { id = hardware.Id }, hardware);
+            return CreatedAtAction("GetKind", new { id = kind.Id }, kind);
         }
 
-        // DELETE: api/Hardwares/5
+        // DELETE: api/Kinds/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHardware([FromRoute] int id)
+        public async Task<IActionResult> DeleteKind([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hardware = await _context.Hardwares.FindAsync(id);
-            if (hardware == null)
+            var kind = await _context.Kinds.FindAsync(id);
+            if (kind == null)
             {
                 return NotFound();
             }
 
-            _context.Hardwares.Remove(hardware);
+            _context.Kinds.Remove(kind);
             await _context.SaveChangesAsync();
 
-            return Ok(hardware);
+            return Ok(kind);
         }
 
-        private bool HardwareExists(int id)
+        private bool KindExists(int id)
         {
-            return _context.Hardwares.Any(e => e.Id == id);
+            return _context.Kinds.Any(e => e.Id == id);
         }
     }
 }

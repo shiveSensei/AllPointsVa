@@ -11,7 +11,7 @@ namespace VaHelpDesk.Core.Features.Categories
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<PartNum> PartNums { get; set; } // all part numbers that are in this Category type
+      //  public ICollection<PartNum> PartNums { get; set; } // all part numbers that are in this Category type
               
     }
 }

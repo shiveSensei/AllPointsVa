@@ -1,71 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using VaHelpDesk.Core.Features.Hardwares;
-using VaHelpDesk.Web.Api.Models.Hardwares;
+using VaHelpDesk.Core.Features.Categories;
 using VaHelpDesk.Web.Data;
 
-namespace VaHelpDesk.Web.Controllers
+namespace VaHelpDesk.Web.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HardwaresController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public HardwaresController(DataContext context)
+        public CategoriesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Hardwares
+        // GET: api/Categories
         [HttpGet]
-        [ProducesResponseType(typeof(HardwareDTO[]), (int)HttpStatusCode.OK)]
-
-        public IEnumerable<Hardware> GetHardwares()
+        public IEnumerable<Category> GetCategories()
         {
-            return _context.Hardwares;
+            return _context.Categories;
         }
 
-        // GET: api/Hardwares/5
+        // GET: api/Categories/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetHardware([FromRoute] int id)
+        public async Task<IActionResult> GetCategory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hardware = await _context.Hardwares.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (hardware == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            return Ok(hardware);
+            return Ok(category);
         }
 
-        // PUT: api/Hardwares/5
+        // PUT: api/Categories/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHardware([FromRoute] int id, [FromBody] Hardware hardware)
+        public async Task<IActionResult> PutCategory([FromRoute] int id, [FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != hardware.Id)
+            if (id != category.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(hardware).State = EntityState.Modified;
+            _context.Entry(category).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +69,7 @@ namespace VaHelpDesk.Web.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!HardwareExists(id))
+                if (!CategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -86,46 +82,45 @@ namespace VaHelpDesk.Web.Controllers
             return NoContent();
         }
 
-        // POST: api/Hardwares
+        // POST: api/Categories
         [HttpPost]
-        [ProducesResponseType(typeof(HardwareDTO[]), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PostHardware([FromBody] Hardware hardware)
+        public async Task<IActionResult> PostCategory([FromBody] Category category)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Hardwares.Add(hardware);
+            _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetHardware", new { id = hardware.Id }, hardware);
+            return CreatedAtAction("GetCategory", new { id = category.Id }, category);
         }
 
-        // DELETE: api/Hardwares/5
+        // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteHardware([FromRoute] int id)
+        public async Task<IActionResult> DeleteCategory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var hardware = await _context.Hardwares.FindAsync(id);
-            if (hardware == null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
             {
                 return NotFound();
             }
 
-            _context.Hardwares.Remove(hardware);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
 
-            return Ok(hardware);
+            return Ok(category);
         }
 
-        private bool HardwareExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Hardwares.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

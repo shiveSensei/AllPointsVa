@@ -13,8 +13,6 @@ namespace VaHelpDesk.Core.Features.Shared
 
         public int CategoryId { get; set; }
         public int KindId { get; set; }
-
-        public ICollection<Hardware> Hardwares { get; set; }
-        
+     
     }
 }
