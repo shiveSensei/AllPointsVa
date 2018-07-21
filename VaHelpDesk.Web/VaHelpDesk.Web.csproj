@@ -12,7 +12,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,22 +21,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180711191639_DataAnn.cs" />
-    <Compile Remove="Migrations\20180711191639_DataAnn.Designer.cs" />
-    <Compile Remove="Migrations\20180712175300_new.cs" />
-    <Compile Remove="Migrations\20180712175300_new.Designer.cs" />
-    <Compile Remove="Migrations\20180712175636_new.cs" />
-    <Compile Remove="Migrations\20180712175636_new.Designer.cs" />
-    <Compile Remove="Migrations\20180712180945_new.cs" />
-    <Compile Remove="Migrations\20180712180945_new.Designer.cs" />
-    <Compile Remove="Migrations\20180712181506_new.cs" />
-    <Compile Remove="Migrations\20180712181506_new.Designer.cs" />
-    <Compile Remove="Migrations\20180712182616_new.cs" />
-    <Compile Remove="Migrations\20180712182616_new.Designer.cs" />
+    <Content Include="ClientApp\package.json" />
+    <Content Include="ClientApp\public\manifest.json" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VaHelpDesk.Core\VaHelpDesk.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Api\Pages\Facilities\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Api\Pages\Facilities\Delete.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Api\Pages\Facilities\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Api\Pages\Facilities\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Api\Pages\Facilities\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

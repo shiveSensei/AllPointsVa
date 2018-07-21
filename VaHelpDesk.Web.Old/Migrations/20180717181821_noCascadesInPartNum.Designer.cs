@@ -10,8 +10,8 @@ using VaHelpDesk.Web.Data;
 namespace VaHelpDesk.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20180719183206_BetterData")]
-    partial class BetterData
+    [Migration("20180717181821_noCascadesInPartNum")]
+    partial class noCascadesInPartNum
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -102,7 +102,7 @@ namespace VaHelpDesk.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId");
+                    b.Property<int?>("CategoryId");
 
                     b.Property<string>("Name");
 
@@ -128,6 +128,10 @@ namespace VaHelpDesk.Web.Migrations
                     b.Property<string>("ProdN");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("KindId");
 
                     b.ToTable("Part Numbers");
                 });
@@ -199,7 +203,7 @@ namespace VaHelpDesk.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VaHelpDesk.Core.Features.Shared.PartNum", "PartNum")
-                        .WithMany()
+                        .WithMany("Hardwares")
                         .HasForeignKey("PartNumId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -208,7 +212,19 @@ namespace VaHelpDesk.Web.Migrations
                 {
                     b.HasOne("VaHelpDesk.Core.Features.Categories.Category", "Category")
                         .WithMany()
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("VaHelpDesk.Core.Features.Shared.PartNum", b =>
+                {
+                    b.HasOne("VaHelpDesk.Core.Features.Categories.Category")
+                        .WithMany("PartNums")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VaHelpDesk.Core.Features.Shared.Kind")
+                        .WithMany("PartNums")
+                        .HasForeignKey("KindId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

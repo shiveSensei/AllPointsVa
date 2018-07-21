@@ -1,6 +1,6 @@
 {
-  "short_name": "VaHelpDesk.Web",
-  "name": "VaHelpDesk.Web",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",

@@ -71,13 +71,7 @@ export class AddHardware extends Component {
             "inService": false,
             "warranty": true,
             "partNumId": this.state.partNumId,
-            //"partNum": {
-            //    "id": this.state.partNums.find((p) => p.id == this.state.partNumId).id,
-            //    "prodN": this.state.partNums.find((p) => p.id == this.state.partNumId).prodN,
-            //    "name": this.state.partNums.find((p) => p.id == this.state.partNumId).name,
-            //    "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
-            //    "kindId": this.state.partNums.find((p) => p.id == this.state.partNumId).kindId
-            //}, //finish this logic
+            //"partNum": {}, //finish this logic
             "deliveryDate": "2018-07-19T16:22:56.495Z",
             "warrantyEnd": "2018-07-19T16:22:56.495Z",
             "trackingNum": 2345,
@@ -85,13 +79,12 @@ export class AddHardware extends Component {
             "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
             "kindId": this.state.partNums.find((p) => p.id == this.state.partNumId).kindId
             //"facility": this.state.facilities.filter((f) => f.id == this.state.facilityId)
-           
-          //"category": this.state.categories.filter((c) => c.id == this.state.categoryId),
-          //"kind": this.state.kinds.filter((k) => k.id == this.state.kindId)
+            //"category": this.state.categories.filter((c) => c.id == this.state.categoryId),
+            //"kind": this.state.kinds.filter((k) => k.id == this.state.kindId)
         };
 
-        newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
-        console.log(newHardware.partNum);
+        //newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
+        console.log(newHardware);
 
           //Post to api route
         fetch('/api/hardwares', {

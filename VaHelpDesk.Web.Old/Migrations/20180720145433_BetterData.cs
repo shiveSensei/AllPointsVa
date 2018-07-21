@@ -70,7 +70,7 @@ namespace VaHelpDesk.Web.Migrations
                 column: "CategoryId",
                 principalTable: "Category",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.NoAction);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Part Numbers_Category_CategoryId",
