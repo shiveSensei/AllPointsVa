@@ -28,13 +28,13 @@ export class AddHardware extends Component {
         fetch('/api/Facilities')
             .then(response => response.json())
             .then(data => {
-                this.setState({ facilities: data});
+                this.setState({ facilities: data });
             });
 
         fetch('/api/PartNums')
             .then(response => response.json())
             .then(data => {
-                this.setState({ partNums: data});
+                this.setState({ partNums: data });
             });
 
         fetch('/api/Kinds')
@@ -52,7 +52,7 @@ export class AddHardware extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-         
+
     }
 
     handleChange(e) {
@@ -86,7 +86,7 @@ export class AddHardware extends Component {
         //newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
         console.log(newHardware);
 
-          //Post to api route
+        //Post to api route
         fetch('/api/hardwares', {
             method: 'POST',
             headers: {
@@ -105,7 +105,7 @@ export class AddHardware extends Component {
 
             //   return (response.json());
         })
-        
+
 
     }
 
@@ -181,7 +181,7 @@ export class AddHardware extends Component {
                     >
                         <option value="select">Select..</option>
                         {partNums.map(partNum =>
-                           
+
 
                             <option value={partNum.id}>{partNum.name}</option>
                         )}
@@ -206,7 +206,7 @@ export class AddHardware extends Component {
                     >
                         <option value="select">Select..</option>
                         {facilities.map(facility =>
-                                <option value={facility.id}>{facility.name}</option>
+                            <option value={facility.id}>{facility.name}</option>
                         )}
                     </FormControl>
                 </FormGroup>
@@ -214,8 +214,8 @@ export class AddHardware extends Component {
 
                 <Button type="submit" onClick={this.handleSubmit}>Submit</Button>
             </form>
-            )
-        
+        )
+
 
     }
     static CreateHardware() {
@@ -231,7 +231,7 @@ export class AddHardware extends Component {
             },
             "description": "A newly"
         };
-                        
+
     }
 
     render() {
@@ -247,7 +247,7 @@ export class AddHardware extends Component {
                 <h1>Add Hardware</h1>
 
                 {content}
-                <hr/>
+                <hr />
 
 
                 <form>

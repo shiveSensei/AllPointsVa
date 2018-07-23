@@ -11,7 +11,7 @@ import { SingleHardware } from './components/Hardwares/SingleHardware';
 import { AddFacility } from './components/Facilities/AddFacility';
 import { AddHardware } from './components/Hardwares/AddHardware';
 
-export default class App extends Component {
+export default class App extends Component { 
   displayName = App.name
 
   render() {

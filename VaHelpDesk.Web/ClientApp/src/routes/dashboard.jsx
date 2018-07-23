@@ -16,6 +16,9 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import SingleHardware from "../views/Hardwares/SingleHardware";
+import AddHardware from "../views/Hardwares/AddHardware";
+import AddFacility from "../views/Facilities/AddFacility";
+import SingleFacility from "../views/Facilities/SingleFacility";
 
 const dashboardRoutes = [
   {
@@ -40,9 +43,17 @@ const dashboardRoutes = [
     component: HardwaresList
   },
   {
+    path: "/hardwares/add",
+    sidebarName: "Add Hardwares",
+    navbarName: "Add Hardwares",
+    icon: ContentPaste,
+    component: AddHardware
+  },
+
+  {
     path: "/hardwares/:id",
-    sidebarName: "Single Hardware",
-    navbarName: "Single Hardware",
+    sidebarName: "Edit Hardware",
+    navbarName: "Edit Hardware",
       icon: ContentPaste,
       component: SingleHardware
   },
@@ -52,6 +63,21 @@ const dashboardRoutes = [
     navbarName: "Facilities",
     icon: LibraryBooks,
     component: FacilitiesList
+  },
+  {
+    path: "/facilities/add",
+    sidebarName: "Add Facilities",
+    navbarName: "Add Facilities",
+    icon: ContentPaste,
+    component: AddFacility
+  },
+
+  {
+    path: "/facilities/:id",
+    sidebarName: "Edit Facility",
+    navbarName: "Edit Facility",
+    icon: ContentPaste,
+    component: SingleFacility
   },
   {
     path: "/notifications",

@@ -69,14 +69,14 @@ class FacilitiesTableList extends Component {
     renderTable(classes, tableMap, tableData) {
         let data = []
         if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
+            tableData.map((d) => {
                 let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
                 data.push(entry)
             })
             console.log(data)
         }
         if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
+            tableData.map((d) => {
                 let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
                 data.push(entry)
             })

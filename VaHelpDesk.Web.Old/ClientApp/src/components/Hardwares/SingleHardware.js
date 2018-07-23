@@ -22,7 +22,7 @@ export class SingleHardware extends Component {
                 console.log(data);
             });
 
-        
+
     }
     static CreateTable(hardwares) {
         return (

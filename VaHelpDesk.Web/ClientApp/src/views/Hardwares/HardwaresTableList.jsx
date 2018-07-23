@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
+
 import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -11,7 +13,11 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import { hardwaresTable } from "variables/tables"
 
+
+
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import Button from "../../components/CustomButtons/Button";
+import SingleHardware from "./SingleHardware";
 
 
 class HardwaresTableList extends Component {
@@ -27,8 +33,8 @@ class HardwaresTableList extends Component {
         fetch('/api/hardwares')
             .then(response => response.json())
             .then(data => {
+               
                 this.setState({ hardwares: data, loading: false });
-                // console.log(data);
             });
 
 
@@ -37,14 +43,27 @@ class HardwaresTableList extends Component {
     renderTable(classes, tableMap, tableData) {
         let data = []
         if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
+           
+            tableData.map((d) => {
+                let entry = [
+                    <div>{d.serial}
+                    <Button color="transparent" size="sm" component={Link} to="">
+                    details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/edit/" + d.serial}>
+                        edit
+                    </Button>
+                    <Button color="danger" size="sm" component={Link} to="">
+                        delete
+                    </Button></div>,
+                    d.name,
+                    d.facility,
+                    d.partNumId]
                 data.push(entry)
             })
-            console.log(data)
         }
         if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
+            tableData.map((d) => {
                 let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
                 data.push(entry)
             })
@@ -62,6 +81,7 @@ class HardwaresTableList extends Component {
                 <CardBody>
                     <Table
                         tableHeaderColor="warning"
+                        
                         tableHead={tableMap.head}
                         tableData={data}
                     />

@@ -174,7 +174,7 @@ class Dashboard extends React.Component {
             <Grid container>
 
                 <GridItem xs={12} sm={6} md={4}>
-                    {this.renderCard(classes, "Units Deployed", "123/123", "99% completed", "Last Checked 2 days ago")}
+                    {this.renderCard(classes, "Units Deployed", this.state.hardwares.length, "99% completed", "Last Checked 2 days ago")}
                 </GridItem>
 
                 <GridItem xs={12} sm={6} md={4}>

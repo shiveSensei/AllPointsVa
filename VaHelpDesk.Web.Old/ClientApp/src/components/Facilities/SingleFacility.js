@@ -12,9 +12,10 @@ export class SingleFacility extends Component {
         this.state = {
             facility: [],
             hardwares: [],
-            facilityId: this.props.match.params.id,
+            facilityId: 2,
             loading: true
         };
+
 
         fetch('/api/Facilities/' + this.state.facilityId)
             .then(response => response.json())
@@ -30,6 +31,7 @@ export class SingleFacility extends Component {
                 console.log(data);
             });
 
+        console.log("Look here silly: " + this.state.facilityId)
 
        
     }

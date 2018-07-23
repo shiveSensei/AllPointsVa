@@ -21,7 +21,7 @@ class SingleHardware extends Component {
         this.state = {
             value: 0,
             hardwares: [],
-            hardwareId: this.props.match.params.id,
+            hardwareId: '',
             loading: true
         };
         console.log("Look here " + this.state.hardwareId)
