@@ -168,7 +168,8 @@ class AddFacility extends Component {
                                         labelText="State"
                                         id="state"
                                         formControlProps={{
-                                            fullWidth: true
+                                            fullWidth: true,
+
                                         }}
                                         inputProps={{
                                             name: "state",

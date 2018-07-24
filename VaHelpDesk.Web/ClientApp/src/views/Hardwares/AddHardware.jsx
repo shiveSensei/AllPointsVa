@@ -6,6 +6,10 @@ import { ProgressBar } from "react-bootstrap"
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+
+
 // core components
 import Table from "components/Table/Table.jsx";
 
@@ -34,7 +38,7 @@ class AddHardware extends Component {
             kinds: [],
             categories: [],
             name: '',
-            serial: '',
+            serial: '123',
             partNumId: 2,
             delDate: '',
             facility: '',
@@ -75,7 +79,6 @@ class AddHardware extends Component {
         this.setState({ [e.target.name]: e.target.value })
         console.log(this.state)
     }
-
     handleSubmit(e) {
         e.preventDefault();
         console.log(this.state.partNums)
@@ -124,9 +127,26 @@ class AddHardware extends Component {
 
 
     }
+    renderForm(props, facilities, partNums) {
+        const currencies = [
+            {
+                value: 'USD',
+                label: '1',
+            },
+            {
+                value: 'EUR',
+                label: '2',
+            },
+            {
+                value: 'BTC',
+                label: '3',
+            },
+            {
+                value: 'JPY',
+                label: '4',
+            },
+        ];
 
-
-    renderForm(props) {
     const { classes } = props;
     return (
         <div>
@@ -148,7 +168,7 @@ class AddHardware extends Component {
                                         }}
                                         inputProps={{
                                             name: "serial",
-                                            native: true,
+                                            value: this.state.serial,
                                             autoFocus: true,
                                             onChange: this.handleChange,
 
@@ -161,42 +181,71 @@ class AddHardware extends Component {
                                         labelText="Device Name"
                                         id="device-name"
                                         formControlProps={{
-                                            fullWidth: true
+                                            fullWidth: true,
+
+                                        }}
+                                        inputProps={{
+                                            name: "name",
+                                            value: this.state.name,
+                                            onChange: this.handleChange,
+
+
                                         }}
                                     />
                                 </GridItem>
                             </Grid>
                             <Grid container>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <CustomInput
-                                        labelText="Part Number"
-                                        id="part-number"
-                                        formControlProps={{
-                                            fullWidth: true
+                                    <TextField
+                                        id="partNumId"
+                                        select
+                                        label="Part Number"
+                                        value={this.state.partNumId}
+                                        onChange={this.handleChange}
+                                        SelectProps={{
+                                            native: true,
+                                            MenuProps: {
+                                                // className: classes.menu,
+                                            },
                                         }}
-                                        inputProps={{
-                                            inputComponent: "select",
-                                            value: this.state.partNumId,
-                                            onChange: this.handleChange,
-                                            children: ["fish", "pny"]
-
-                                        }}
-                                    />
+                                        helperText="Select a part Number"
+                                        margin="normal"
+                                    >
+                                        {partNums.map(option => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.name}
+                                            </option>
+                                        ))}
+                                    </TextField>
 
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={6}>
-                                    <CustomInput
-                                        labelText="Facility"
+
+                                    <TextField
                                         id="facility"
-                                        formControlProps={{
-                                            fullWidth: true
+                                        select
+                                        label="Facility"
+                                        value={this.state.facilityId}
+                                        onChange={this.handleChange}
+                                        SelectProps={{
+                                            native: true,
+                                            MenuProps: {
+                                               // className: classes.menu,
+                                            },
                                         }}
-                                        inputProps={{
-                                            inputComponent: "select",
-                                            value: this.state.facilityId,
-                                            onChange: this.handleChange
-                                        }}
-                                    />
+                                        helperText="Select a facility"
+                                        margin="normal"
+                                    >
+                                        {facilities.map(option => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.name}
+                                            </option>
+                                        ))}
+                                    </TextField>
+                                      
+                                        
+                                  
+
                                 </GridItem>
                             </Grid>
                      
@@ -212,61 +261,12 @@ class AddHardware extends Component {
         </div>
     );
 }
-    renderTable(classes, tableMap, tableData) {
-        let data = []
-        if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
-                let entry = [
-                    <div>{d.serial.toString()}
-                        <Button color="transparent" size="sm" component={Link} to="">
-                            details
-                    </Button>
-                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/edit/" + d.serial.toString()}>
-                            edit
-                    </Button>
-                        <Button color="danger" size="sm" component={Link} to="">
-                            delete
-                    </Button></div>,
-                    d.name,
-                    d.facility,
-                    d.partNumId.toString()]
-                data.push(entry)
-            })
-            console.log(data)
-        }
-        if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
-                data.push(entry)
-            })
-        }
-
-        return (
-
-            <Card>
-                <CardHeader color={tableMap.metadata.color}>
-                    <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name}</h4>
-                    <p className={classes.cardCategoryWhite}>
-                        {tableMap.metadata.subtext}
-                    </p>
-                </CardHeader>
-                <CardBody>
-                    <Table
-                        tableHeaderColor="warning"
-
-                        tableHead={tableMap.head}
-                        tableData={data}
-                    />
-                </CardBody>
-            </Card>
-
-        )
-    }
 
     render() {
+
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
-            : this.renderForm(this.props);
+            : this.renderForm(this.props, this.state.facilities, this.state.partNums);
 
         return (
             <div>

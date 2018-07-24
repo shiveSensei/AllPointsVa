@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom'
-import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DetailsIcon from "@material-ui/icons/ViewList";
 import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 // core components
 import Button from "../../components/CustomButtons/Button";
@@ -36,8 +37,6 @@ class FacilitiesTableList extends Component {
                 this.setState({ facilities: data, loading: false });
                 // console.log(data);
             });
-
-
     }
 
     renderTable(classes, tableMap, tableData) {
@@ -86,9 +85,11 @@ class FacilitiesTableList extends Component {
 
             <Card>
                 <CardHeader color={tableMap.metadata.color}>
-                    <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name}</h4>
+                    <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name} </h4>
                     <p className={classes.cardCategoryWhite}>
-                        {tableMap.metadata.subtext}
+                        {tableMap.metadata.subtext} <IconButton component={Link} redirect="true" to={"/addfacility"}>
+                            <DetailsIcon />
+                        </IconButton>
                     </p>
                 </CardHeader>
                 <CardBody>
@@ -105,7 +106,7 @@ class FacilitiesTableList extends Component {
     }
     render() {
         let content = this.state.loading
-            ? <div><ProgressBar active now={45} /></div>
+            ? <div><CircularProgress className={this.props.classes.progress} size={50} /></div>
             : this.renderTable(this.props, facilitiesTable, this.state.facilities);
 
         return (

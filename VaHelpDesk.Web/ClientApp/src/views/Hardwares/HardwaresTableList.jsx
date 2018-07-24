@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom'
 
-import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DetailsIcon from "@material-ui/icons/ViewList";
 import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
@@ -92,7 +92,7 @@ class HardwaresTableList extends Component {
 
     render() {
         let content = this.state.loading
-            ? <div><ProgressBar active now={45} /></div>
+            ? <div><CircularProgress className={this.props.classes.progress} size={50} /></div>
             : this.renderTable(this.props, hardwaresTable, this.state.hardwares);
 
         return (
