@@ -171,7 +171,7 @@ class AddFacility extends Component {
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            name: "al2",
+                                            name: "state",
                                             value: this.state.state,
                                             onChange: this.handleChange,
                                         }}
@@ -196,7 +196,7 @@ class AddFacility extends Component {
                           
                         </CardBody>
                         <CardFooter>
-                            <Button color="primary">Submit</Button>
+                            <Button onClick={this.handleSubmit} color="primary">Submit</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

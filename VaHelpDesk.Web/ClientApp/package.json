@@ -6,7 +6,7 @@
   "main": "index.js",
   "dependencies": {
     "@material-ui/core": "1.2.1",
-    "@material-ui/icons": "1.1.0",
+    "@material-ui/icons": "^1.1.0",
     "@types/googlemaps": "3.30.9",
     "@types/markerclustererplus": "2.1.33",
     "ajv": "6.5.1",

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import PropTypes from "prop-types";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
@@ -6,20 +7,19 @@ import ChartistGraph from "react-chartist";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 // @material-ui/icons
-import ContentCopy from "@material-ui/icons/ContentCopy";
-import Store from "@material-ui/icons/Store";
-import InfoOutline from "@material-ui/icons/InfoOutline";
+import Desktop from "@material-ui/icons/DesktopMac";
+import Tickets from "@material-ui/icons/Style";
+import Service from "@material-ui/icons/LocalHospital";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
 // core components
+import Button from "components/CustomButtons/Button";
+
 import GridItem from "components/Grid/GridItem.jsx";
 import Table from "components/Table/Table.jsx";
 import Tasks from "components/Tasks/Tasks.jsx";
@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data });
-                // console.log(data);
+                 console.log(data);
             });
 
         fetch('/api/facilities')
@@ -65,7 +65,6 @@ class Dashboard extends React.Component {
                 this.setState({ facilities: data, loading: false });
                 // console.log(data);
             });
-
 
     }
 
@@ -77,18 +76,18 @@ class Dashboard extends React.Component {
     this.setState({ value: index });
   };
 
-    renderCard(classes, name, title, subTitle, stats) {
+    renderCard(classes, icon, title, data, subTitle, stats) {
         //data has name, title, and stats
         return (
 
             <Card>
                 <CardHeader color="warning" stats icon>
                     <CardIcon color="warning">
-                        <ContentCopy />
+                        {icon}
                     </CardIcon>
-                    <p className={classes.cardCategory}>{name}</p>
+                    <p className={classes.cardCategory}>{title}</p>
                     <h3 className={classes.cardTitle}>
-                        {title} <small>{subTitle}</small>
+                        {data} <small>{subTitle}</small>
                     </h3>
                 </CardHeader>
                 <CardFooter stats>
@@ -133,16 +132,43 @@ class Dashboard extends React.Component {
 
     renderTable(classes, tableMap, tableData) {
         let data = []
-        if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
+        if (tableData === this.state.hardwares) {
+
+            tableData.map((d) => {
+                let entry = [
+                    <div>{d.serial}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.name,
+                    d.facility,
+                    d.partNumId]
                 data.push(entry)
             })
-            console.log(data)
         }
-        if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode, ]
+        if (tableData === this.state.facilities) {
+            tableData.map((d) => {
+                let entry = [
+                    <div>{d.name}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/facilities/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.physicalAddress.addressLine1, d.physicalAddress.addressLine2,
+                    d.physicalAddress.city,
+                    d.physicalAddress.state,
+                    d.physicalAddress.zipCode,]
                 data.push(entry)
             })
         }
@@ -159,30 +185,32 @@ class Dashboard extends React.Component {
                 <CardBody>
                     <Table
                         tableHeaderColor="warning"
+
                         tableHead={tableMap.head}
                         tableData={data}
                     />
                 </CardBody>
             </Card>
-            
-            )
+
+        )
     }
     render() {
+        let inService = this.state.hardwares.filter((h) => !h.inService); //set this to h.inService when full data model is implemented
     const { classes } = this.props;
     return (
       <div>
             <Grid container>
 
                 <GridItem xs={12} sm={6} md={4}>
-                    {this.renderCard(classes, "Units Deployed", this.state.hardwares.length, "99% completed", "Last Checked 2 days ago")}
+                    {this.renderCard(classes, <Desktop />, "Units Deployed", this.state.hardwares.length, "99% completed", "Last Checked 2 days ago")}
                 </GridItem>
 
                 <GridItem xs={12} sm={6} md={4}>
-                    {this.renderCard(classes, "Units In Service", "12", "sub Data", "Last Checked 2 days ago")}
+                    {this.renderCard(classes, <Service />, "Units In Service", inService.length, "sub Data", "Last Checked 2 days ago")}
                 </GridItem>
 
                 <GridItem xs={12} sm={6} md={4}>
-                        {this.renderCard(classes, "Tickets Completed", "88", "sub Data", "Last Checked 2 days ago")}
+                    {this.renderCard(classes, <Tickets />, "Tickets Completed", "88", "sub Data", "Last Checked 2 days ago")}
                 </GridItem>
          
             </Grid>

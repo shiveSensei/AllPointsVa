@@ -1,20 +1,10 @@
-import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 
-import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Grid from "@material-ui/core/Grid";
 // core components
-import GridItem from "components/Grid/GridItem.jsx";
-import Table from "components/Table/Table.jsx";
-import Card from "components/Card/Card.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
-import Button from "../../components/CustomButtons/Button";
 import FacilitiesTableList from "./FacilitiesTableList";
 import SingleFacility from "./SingleFacility";
 
@@ -59,4 +49,4 @@ const styles = {
     }
 };
 
-export default withStyles(dashboardStyle)(FacilitiesIndex);
+export default withStyles(styles)(FacilitiesIndex);

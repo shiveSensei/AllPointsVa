@@ -4,6 +4,10 @@ import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
+import DeleteIcon from "@material-ui/icons/Delete";
+import DetailsIcon from "@material-ui/icons/ViewList";
+import IconButton from "@material-ui/core/IconButton";
+
 // core components
 import Button from "../../components/CustomButtons/Button";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -42,16 +46,15 @@ class FacilitiesTableList extends Component {
 
             tableData.map((d) => {
                 let entry = [
-                    <div>{d.serial}
-                        <Button color="transparent" size="sm" component={Link} to="">
-                            details
-                    </Button>
-                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
-                            edit
-                    </Button>
-                        <Button color="danger" size="sm" component={Link} to="">
-                            delete
-                    </Button></div>,
+                    <div>
+                        <Grid><h2>{d.serial}</h2></Grid>
+
+                        <Button justIcon round color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                            <DetailsIcon />
+                        </Button>
+                        <Button justIcon round color="danger" size="sm" component={Link} to="">
+                            <DeleteIcon />
+                        </Button></div>,
                     d.name,
                     d.facility,
                     d.partNumId]
@@ -61,20 +64,20 @@ class FacilitiesTableList extends Component {
         if (tableData == this.state.facilities) {
             tableData.map((d) => {
                 let entry = [
-                    <div>{d.name}
-                        <Button color="transparent" size="sm" component={Link} to="">
-                            details
-                    </Button>
-                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/facilities/" + d.id}>
-                            edit
-                    </Button>
-                        <Button color="danger" size="sm" component={Link} to="">
-                            delete
-                    </Button></div>,
-                    d.physicalAddress.addressLine1, d.physicalAddress.addressLine2,
-                    d.physicalAddress.city,
-                    d.physicalAddress.state,
-                    d.physicalAddress.zipCode,]
+                    <div>
+                        <Grid><h4>{d.name}</h4></Grid>
+
+                        <IconButton  component={Link} redirect="true" to={"/facilities/" + d.id}>
+                            <DetailsIcon />
+                        </IconButton>
+                        <IconButton component={Link} to="">
+                            <DeleteIcon />
+                        </IconButton>
+                    </div>,
+                    d.physicalAddress.addressLine1 + " " +
+                    d.physicalAddress.city + "," +
+                    d.physicalAddress.state + "-" +
+                    d.physicalAddress.zipCode]
                 data.push(entry)
             })
         }

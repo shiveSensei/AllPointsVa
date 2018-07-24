@@ -5,6 +5,10 @@ import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
+import DeleteIcon from "@material-ui/icons/Delete";
+import DetailsIcon from "@material-ui/icons/ViewList";
+import IconButton from "@material-ui/core/IconButton";
+
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import Table from "components/Table/Table.jsx";
@@ -13,11 +17,6 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import { hardwaresTable } from "variables/tables"
 
-
-
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
-import Button from "../../components/CustomButtons/Button";
-import SingleHardware from "./SingleHardware";
 
 
 class HardwaresTableList extends Component {
@@ -46,16 +45,16 @@ class HardwaresTableList extends Component {
            
             tableData.map((d) => {
                 let entry = [
-                    <div>{d.serial}
-                    <Button color="transparent" size="sm" component={Link} to="">
-                    details
-                    </Button>
-                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
-                        edit
-                    </Button>
-                    <Button color="danger" size="sm" component={Link} to="">
-                        delete
-                    </Button></div>,
+                    <div>
+                        <Grid><h2>{d.serial}</h2></Grid>
+                        
+                        <IconButton component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                            <DetailsIcon />
+                        </IconButton>
+                        <IconButton component={Link} to="">
+                            <DeleteIcon />
+                        </IconButton>
+                    </div>,
                     d.name,
                     d.facility,
                     d.partNumId]
@@ -140,4 +139,4 @@ const styles = {
     }
 };
 
-export default withStyles(dashboardStyle)(HardwaresTableList);
+export default withStyles(styles)(HardwaresTableList);

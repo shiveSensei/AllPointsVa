@@ -27,7 +27,7 @@ const facilitiesTable = {
         subtext: "All Facilities",
         color: "success"
     },
-    head: ["Name", "Address Line 1", "Address Line 2", "City", "State", "Zip"]
+    head: ["Name", "Address"]
 
 };
 

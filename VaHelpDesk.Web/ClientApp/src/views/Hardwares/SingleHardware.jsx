@@ -11,9 +11,7 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import { hardwaresTable } from "variables/tables"
 
-import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 
 class SingleHardware extends Component {
@@ -22,6 +20,7 @@ class SingleHardware extends Component {
 
         this.state = {
             value: 0,
+            disabled: true,
             hardwares: [],
             hardwareId: this.props.match.params.id,
             loading: true
@@ -33,19 +32,23 @@ class SingleHardware extends Component {
                 this.setState({ hardwares: data, loading: false });
                  console.log(data);
             });
+        this.handleEditClick = this.handleEditClick.bind(this);
 
+    }
+    handleEditClick() {
+        this.setState({ disabled: !this.state.disabled })
     }
     renderForm(props, hardware) {
         const { classes } = props;
-        console.log(hardware)
         return (
             <div>
                 <Grid container>
                     <GridItem xs={12} sm={12} md={8}>
                         <Card>
                             <CardHeader color="primary">
-                                <h4 className={classes.cardTitleWhite}>Edit {hardware.name} </h4>
-                                <p className={classes.cardCategoryWhite}>Edit this device</p>
+                                <h4 className={classes.cardTitleWhite}> {hardware.name} </h4>
+                                <Button onClick={this.handleEditClick} size="sm" className={classes.cardCategoryWhite} color="transparent"><p>Edit this device</p></Button>
+                                
                             </CardHeader>
                             <CardBody>
                                 <Grid container>
@@ -61,6 +64,7 @@ class SingleHardware extends Component {
                                                 autoFocus: true,
                                                 value: hardware.name,
                                                 onChange: this.handleChange,
+                                                disabled: this.state.disabled? "disabled": ""
                                             }}
 
                                         />
@@ -79,6 +83,7 @@ class SingleHardware extends Component {
                                                 name: "serial",
                                                 value: hardware.serial,
                                                 onChange: this.handleChange,
+                                                disabled: this.state.disabled ? "disabled" : ""
                                             }}
                                         />
                                     </GridItem>
@@ -93,6 +98,7 @@ class SingleHardware extends Component {
                                                 name: "facilityId",
                                                 value: hardware.facilityId,
                                                 onChange: this.handleChange,
+                                                disabled: this.state.disabled ? "disabled" : ""
 
                                             }}
                                         />
@@ -121,7 +127,6 @@ class SingleHardware extends Component {
 
         return (
             <div>
-                Single
                 <Grid container>
                     <GridItem xs={12} sm={12} md={12}>
                         {content}
@@ -163,4 +168,4 @@ const styles = {
     }
 };
 
-export default withStyles(dashboardStyle)(SingleHardware);
+export default withStyles(styles)(SingleHardware);
