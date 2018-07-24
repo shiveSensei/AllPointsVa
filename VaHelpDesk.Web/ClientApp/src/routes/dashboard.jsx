@@ -19,6 +19,8 @@ import SingleHardware from "../views/Hardwares/SingleHardware";
 import AddHardware from "../views/Hardwares/AddHardware";
 import AddFacility from "../views/Facilities/AddFacility";
 import SingleFacility from "../views/Facilities/SingleFacility";
+import HardwaresIndex from "../views/Hardwares/HardwaresIndex";
+import FacilitiesIndex from "../views/Facilities/FacilitiesIndex";
 
 const dashboardRoutes = [
   {
@@ -39,45 +41,15 @@ const dashboardRoutes = [
     path: "/hardwares",
     sidebarName: "Hardwares",
     navbarName: "Hardwares",
-    icon: ContentPaste,
-    component: HardwaresList
-  },
-  {
-    path: "/hardwares/add",
-    sidebarName: "Add Hardwares",
-    navbarName: "Add Hardwares",
-    icon: ContentPaste,
-    component: AddHardware
-  },
-
-  {
-    path: "/hardwares/:id",
-    sidebarName: "Edit Hardware",
-    navbarName: "Edit Hardware",
       icon: ContentPaste,
-      component: SingleHardware
+      component: HardwaresIndex
   },
   {
     path: "/facilities",
     sidebarName: "Facilities",
     navbarName: "Facilities",
-    icon: LibraryBooks,
-    component: FacilitiesList
-  },
-  {
-    path: "/facilities/add",
-    sidebarName: "Add Facilities",
-    navbarName: "Add Facilities",
-    icon: ContentPaste,
-    component: AddFacility
-  },
-
-  {
-    path: "/facilities/:id",
-    sidebarName: "Edit Facility",
-    navbarName: "Edit Facility",
-    icon: ContentPaste,
-    component: SingleFacility
+      icon: LibraryBooks,
+      component: FacilitiesIndex
   },
   {
     path: "/notifications",

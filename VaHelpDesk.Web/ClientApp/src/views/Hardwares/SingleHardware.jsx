@@ -4,11 +4,13 @@ import { ProgressBar } from "react-bootstrap"
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 // core components
+import Button from "components/CustomButtons/Button.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import Table from "components/Table/Table.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
+import CardFooter from "components/Card/CardFooter.jsx";
 import { hardwaresTable } from "variables/tables"
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
@@ -21,62 +23,101 @@ class SingleHardware extends Component {
         this.state = {
             value: 0,
             hardwares: [],
-            hardwareId: '',
+            hardwareId: this.props.match.params.id,
             loading: true
         };
-        console.log("Look here " + this.state.hardwareId)
 
         fetch('/api/hardwares')
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data, loading: false });
-                // console.log(data);
+                 console.log(data);
             });
 
     }
-
-    renderTable(classes, tableMap, tableData) {
-        let data = []
-        if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
-                data.push(entry)
-            })
-            console.log(data)
-        }
-        if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
-                data.push(entry)
-            })
-        }
-
+    renderForm(props, hardware) {
+        const { classes } = props;
+        console.log(hardware)
         return (
+            <div>
+                <Grid container>
+                    <GridItem xs={12} sm={12} md={8}>
+                        <Card>
+                            <CardHeader color="primary">
+                                <h4 className={classes.cardTitleWhite}>Edit {hardware.name} </h4>
+                                <p className={classes.cardCategoryWhite}>Edit this device</p>
+                            </CardHeader>
+                            <CardBody>
+                                <Grid container>
+                                    <GridItem xs={12} sm={12} md={12}>
+                                        <CustomInput
+                                            labelText="Facility Name"
+                                            id="name"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                            inputProps={{
+                                                name: "name",
+                                                autoFocus: true,
+                                                value: hardware.name,
+                                                onChange: this.handleChange,
+                                            }}
 
-            <Card>
-                <CardHeader color={tableMap.metadata.color}>
-                    <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name}</h4>
-                    <p className={classes.cardCategoryWhite}>
-                        {tableMap.metadata.subtext}
-                    </p>
-                </CardHeader>
-                <CardBody>
-                    <Table
-                        tableHeaderColor="warning"
-                        tableHead={tableMap.head}
-                        tableData={data}
-                    />
-                </CardBody>
-            </Card>
+                                        />
+                                    </GridItem>
 
-        )
+                                </Grid>
+                                <Grid container>
+                                    <GridItem xs={12} sm={12} md={4}>
+                                        <CustomInput
+                                            labelText="Serial"
+                                            id="al1"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                            inputProps={{
+                                                name: "serial",
+                                                value: hardware.serial,
+                                                onChange: this.handleChange,
+                                            }}
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={12} sm={12} md={6}>
+                                        <CustomInput
+                                            labelText="Facility"
+                                            id="al2"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                            inputProps={{
+                                                name: "facilityId",
+                                                value: hardware.facilityId,
+                                                onChange: this.handleChange,
+
+                                            }}
+                                        />
+
+                                    </GridItem>
+                                </Grid>
+                               
+                            </CardBody>
+                            <CardFooter>
+                                <Button color="primary">Submit</Button>
+                            </CardFooter>
+                        </Card>
+                    </GridItem>
+
+                </Grid>
+            </div>
+        );
     }
 
+
     render() {
-        let hardware = this.state.hardwares.filter((h) => h.id == this.state.hardwareId)
+        let hardware = this.state.hardwares.find((h) => h.id == this.state.hardwareId)
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
-            : this.renderTable(this.props, hardwaresTable, hardware);
+            : this.renderForm(this.props, hardware);
 
         return (
             <div>

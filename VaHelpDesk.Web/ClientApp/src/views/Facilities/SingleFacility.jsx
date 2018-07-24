@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
 import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,7 +13,7 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import { facilitiesTable } from "variables/tables"
+import { hardwaresTable } from "variables/tables"
 
 import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -24,32 +25,72 @@ class SingleFacility extends Component {
         this.state = {
             value: 0,
             facilities: [],
-            facilityId: 2,
+            hardwares: [],
+            facilityId: this.props.match.params.id,
             loading: true
         };
-        console.log("Look here " + this.state.facilityId)
 
         fetch('/api/facilities')
             .then(response => response.json())
             .then(data => {
-                this.setState({ facilities: data, loading: false });
-                // console.log(data);
+                this.setState({ facilities: data });
+            });
+        fetch('/api/hardwares')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ hardwares: data, loading: false });
             });
 
     }
 
+    getHardwares(hardwares) {
+        let data = []
+        data = this.state.hardwares.find((h) => h.facilityId == this.state.facilityId);
+        this.setState({ hardwares: data })
+        console.log(this.state.hardwares)
+        return(data)
+    }
+
     renderTable(classes, tableMap, tableData) {
+
         let data = []
         if (tableData == this.state.hardwares) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
+
+            tableData.map((d) => {
+                let entry = [
+                    <div>{d.serial}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.name,
+                    d.facility,
+                    d.partNumId]
                 data.push(entry)
             })
-            console.log(data)
         }
         if (tableData == this.state.facilities) {
-            Object.values(tableData).map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
+            tableData.map((d) => {
+                let entry = [
+                    <div>{d.name}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/facilities/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.physicalAddress.addressLine1, d.physicalAddress.addressLine2,
+                    d.physicalAddress.city,
+                    d.physicalAddress.state,
+                    d.physicalAddress.zipCode,]
                 data.push(entry)
             })
         }
@@ -66,6 +107,7 @@ class SingleFacility extends Component {
                 <CardBody>
                     <Table
                         tableHeaderColor="warning"
+
                         tableHead={tableMap.head}
                         tableData={data}
                     />
@@ -195,12 +237,11 @@ class SingleFacility extends Component {
         );
     }
     render() {
-        let facility = this.state.facilities.find((f) => f.id == this.state.facilityId)
+        let facility = this.state.facilities.find((f) => f.id == this.state.facilityId);
+       
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
-            : this.renderForm(this.props, facility);
-       // console.log(facility)
-
+            : this.renderTable(this.props, hardwaresTable, this.state.hardwares);
         return (
             <div>
                 Single

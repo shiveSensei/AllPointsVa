@@ -50,7 +50,7 @@ class HardwaresTableList extends Component {
                     <Button color="transparent" size="sm" component={Link} to="">
                     details
                     </Button>
-                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/edit/" + d.serial}>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
                         edit
                     </Button>
                     <Button color="danger" size="sm" component={Link} to="">
@@ -97,6 +97,7 @@ class HardwaresTableList extends Component {
             : this.renderTable(this.props, hardwaresTable, this.state.hardwares);
 
         return (
+          
             <div>
                 <Grid container>
                     <GridItem xs={12} sm={12} md={12}>

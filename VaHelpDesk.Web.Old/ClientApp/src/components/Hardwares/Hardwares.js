@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Media, Badge, Well, Image, ProgressBar, Button, Label, Panel, Glyphicon } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
+import { SingleHardware } from './SingleHardware';
 
 export class Hardwares extends Component {
   displayName = Hardwares.name

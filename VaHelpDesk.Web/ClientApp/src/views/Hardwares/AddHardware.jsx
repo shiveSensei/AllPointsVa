@@ -81,7 +81,7 @@ class AddHardware extends Component {
         console.log(this.state.partNums)
         //Build new hardware object from state
         let newHardware = {
-            "name": this.state.partNums.find((p) => p.id == this.state.partNumId).name,
+            "name": this.state.partNums.find((p) => p.id === this.state.partNumId).name,
             "serial": this.state.serial,
             "class": "hardware",
             "inService": false,

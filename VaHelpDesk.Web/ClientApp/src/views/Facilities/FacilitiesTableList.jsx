@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom'
 import { ProgressBar } from "react-bootstrap"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 // core components
+import Button from "../../components/CustomButtons/Button";
 import GridItem from "components/Grid/GridItem.jsx";
 import Table from "components/Table/Table.jsx";
 import Card from "components/Card/Card.jsx";
@@ -34,50 +36,45 @@ class FacilitiesTableList extends Component {
 
     }
 
- TableList(props) {
-    const { classes } = props;
-    return (
-        <Grid container>
-            <GridItem xs={12} sm={12} md={12}>
-                <Card>
-                    <CardHeader color="primary">
-                        <h4 className={classes.cardTitleWhite}>Simple Table</h4>
-                        <p className={classes.cardCategoryWhite}>
-                            Here is a subtitle for this table
-            </p>
-                    </CardHeader>
-                    <CardBody>
-                        <Table
-                            tableHeaderColor="primary"
-                            tableHead={["Name", "Country", "City", "Salary"]}
-                            tableData={[
-                                ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-                                ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-                                ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-                                ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-                                ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-                                ["Mason Porter", "Chile", "Gloucester", "$78,615"]
-                            ]}
-                        />
-                    </CardBody>
-                </Card>
-            </GridItem>
-
-        </Grid>
-    );
-}
     renderTable(classes, tableMap, tableData) {
         let data = []
         if (tableData == this.state.hardwares) {
+
             tableData.map((d) => {
-                let entry = [d.serial.toString(), d.name, d.facility, d.partNumId.toString()]
+                let entry = [
+                    <div>{d.serial}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.name,
+                    d.facility,
+                    d.partNumId]
                 data.push(entry)
             })
-            console.log(data)
         }
         if (tableData == this.state.facilities) {
             tableData.map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
+                let entry = [
+                    <div>{d.name}
+                        <Button color="transparent" size="sm" component={Link} to="">
+                            details
+                    </Button>
+                        <Button color="primary" size="sm" component={Link} redirect="true" to={"/facilities/" + d.id}>
+                            edit
+                    </Button>
+                        <Button color="danger" size="sm" component={Link} to="">
+                            delete
+                    </Button></div>,
+                    d.physicalAddress.addressLine1, d.physicalAddress.addressLine2,
+                    d.physicalAddress.city,
+                    d.physicalAddress.state,
+                    d.physicalAddress.zipCode,]
                 data.push(entry)
             })
         }
@@ -94,6 +91,7 @@ class FacilitiesTableList extends Component {
                 <CardBody>
                     <Table
                         tableHeaderColor="warning"
+
                         tableHead={tableMap.head}
                         tableData={data}
                     />
@@ -102,7 +100,6 @@ class FacilitiesTableList extends Component {
 
         )
     }
-
     render() {
         let content = this.state.loading
             ? <div><ProgressBar active now={45} /></div>
