@@ -24,7 +24,7 @@ const hardwaresTable = {
 const facilitiesTable = {
     metadata: {
         name: "Facilities",
-        subtext: "All Facilities",
+        subtext: "Add a Facility",
         color: "success"
     },
     head: ["Name", "Address"]

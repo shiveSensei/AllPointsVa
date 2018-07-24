@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DetailsIcon from "@material-ui/icons/ViewList";
 import IconButton from "@material-ui/core/IconButton";
+import AddFacility from "@material-ui/icons/StoreMallDirectory";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 
@@ -88,7 +89,7 @@ class FacilitiesTableList extends Component {
                     <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name} </h4>
                     <p className={classes.cardCategoryWhite}>
                         {tableMap.metadata.subtext} <IconButton component={Link} redirect="true" to={"/addfacility"}>
-                            <DetailsIcon />
+                            <AddFacility />
                         </IconButton>
                     </p>
                 </CardHeader>
