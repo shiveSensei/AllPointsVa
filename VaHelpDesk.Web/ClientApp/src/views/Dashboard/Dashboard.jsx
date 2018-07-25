@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data });
-                 console.log(data);
+                 console.log(this);
             });
 
         fetch('/api/facilities')

@@ -13,14 +13,16 @@ import Hidden from "@material-ui/core/Hidden";
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
 import Dashboard from "@material-ui/icons/Dashboard";
-import Search from "@material-ui/icons/Search";
+import SearchIcon from "@material-ui/icons/Search";
 // core components
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import Search from "components/Search/Search.jsx";
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle";
 
 class HeaderLinks extends React.Component {
+    query = React.createRef();
   state = {
     open: false
   };
@@ -36,20 +38,10 @@ class HeaderLinks extends React.Component {
     const { open } = this.state;
     return (
       <div>
-        <div className={classes.searchWrapper}>
-        <CustomInput
-          formControlProps={{
-            className: classes.margin + " " + classes.search
-          }}
-          inputProps={{
-            placeholder: "Search",
-            inputProps: {
-              "aria-label": "Search"
-            }
-          }}
-        />
+            <div className={classes.searchWrapper}>
+                <Search /> 
         <Button color="white" aria-label="edit" justIcon round>
-          <Search />
+          <SearchIcon />
         </Button>
       </div>
         <Button

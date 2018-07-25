@@ -34,6 +34,7 @@ class HardwaresTableList extends Component {
             .then(data => {
                
                 this.setState({ hardwares: data, loading: false });
+                console.log(this)
             });
 
 
