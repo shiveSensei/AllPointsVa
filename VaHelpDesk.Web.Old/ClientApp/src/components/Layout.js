@@ -5,7 +5,8 @@ import { NavMenu } from './NavMenu';
 export class Layout extends Component {
   displayName = Layout.name
 
-  render() {
+    render() {
+      console.log(this)
     return (
       <Grid fluid>
         <Row>

@@ -8,6 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import DetailsIcon from "@material-ui/icons/ViewList";
 import IconButton from "@material-ui/core/IconButton";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import AddHardware from "@material-ui/icons/StoreMallDirectory";
 
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
@@ -26,25 +27,32 @@ class HardwaresTableList extends Component {
         this.state = {
             value: 0,
             hardwares: [],
-            loading: true
+            loading: true,
+            query: this.props.query
         };
-
         fetch('/api/hardwares')
             .then(response => response.json())
             .then(data => {
                
                 this.setState({ hardwares: data, loading: false });
-                console.log(this)
             });
-
-
     }
 
+    filterData(hardwares) {
+        let data = hardwares
+        let query = this.props.query.toLowerCase()
+
+        data = data.filter(d => {
+            return d.name.toLowerCase().includes(query) || d.serial.toString().includes(query)
+        })
+      
+        return (data)
+    }
     renderTable(classes, tableMap, tableData) {
         let data = []
-        if (tableData == this.state.hardwares) {
-           
-            tableData.map((d) => {
+        let filteredData = this.filterData(tableData)
+
+        filteredData.map((d) => {
                 let entry = [
                     <div>
                         <Grid><h2>{d.serial}</h2></Grid>
@@ -59,23 +67,21 @@ class HardwaresTableList extends Component {
                     d.name,
                     d.facility,
                     d.partNumId]
-                data.push(entry)
-            })
-        }
-        if (tableData == this.state.facilities) {
-            tableData.map((d) => {
-                let entry = [d.name, d.physicalAddress.addressLine1, d.physicalAddress.addressLine2, d.physicalAddress.city, d.physicalAddress.state, d.physicalAddress.zipCode,]
-                data.push(entry)
-            })
-        }
 
+                data.push(entry)
+            })
+        console.log(data)
+
+        
         return (
-
+           
             <Card>
                 <CardHeader color={tableMap.metadata.color}>
                     <h4 className={classes.cardTitleWhite}>{tableMap.metadata.name}</h4>
-                    <p className={classes.cardCategoryWhite}>
-                        {tableMap.metadata.subtext}
+                    <p className={classes.cardCategoryWhite} >
+                        {tableMap.metadata.subtext} <IconButton component={Link} redirect="true" to={"/addhardware"}>
+                            <AddHardware />
+                        </IconButton>
                     </p>
                 </CardHeader>
                 <CardBody>
@@ -92,12 +98,12 @@ class HardwaresTableList extends Component {
     }
 
     render() {
+
         let content = this.state.loading
             ? <div><CircularProgress className={this.props.classes.progress} size={50} /></div>
             : this.renderTable(this.props, hardwaresTable, this.state.hardwares);
 
         return (
-          
             <div>
                 <Grid container>
                     <GridItem xs={12} sm={12} md={12}>

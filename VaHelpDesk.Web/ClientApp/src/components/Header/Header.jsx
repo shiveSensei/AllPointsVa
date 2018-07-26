@@ -15,46 +15,46 @@ import Button from "components/CustomButtons/Button";
 
 import headerStyle from "assets/jss/material-dashboard-react/components/headerStyle.jsx";
 
-function Header({ ...props }) {
-  function makeBrand() {
-    var name;
-    props.routes.map((prop, key) => {
-      if (prop.path === props.location.pathname) {
-        name = prop.navbarName;
-      }
-      return null;
-    });
-    return name;
-  }
-  const { classes, color } = props;
-  const appBarClasses = classNames({
-    [" " + classes[color]]: color
-  });
-  return (
-    <AppBar className={classes.appBar + appBarClasses}>
-      <Toolbar className={classes.container}>
-        
-        <Hidden smDown implementation="css">
-          <HeaderLinks />
-        </Hidden>
-        <Hidden mdUp>
-          <IconButton
-            className={classes.appResponsive}
-            color="inherit"
-            aria-label="open drawer"
-            onClick={props.handleDrawerToggle}
-          >
-            <Menu />
-          </IconButton>
-        </Hidden>
-      </Toolbar>
-    </AppBar>
-  );
+class Header extends React.Component {
+    constructor(props) {
+        super(props);
+
+        //this.handleSearchChange = this.handleSearchChange.bind(this);
+    }
+
+   
+    render() {
+        const { classes, color } = this.props;
+        const appBarClasses = classNames({
+            [" " + classes[color]]: color
+        });
+
+        return (
+            <AppBar className={classes.appBar + appBarClasses}>
+                <Toolbar className={classes.container}>
+
+                    <Hidden smDown implementation="css">
+                        <HeaderLinks
+                            handleSearchChange={this.props.handleSearchChange}
+                        />
+                    </Hidden>
+                    <Hidden mdUp>
+                        <IconButton
+                            className={classes.appResponsive}
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={this.props.handleDrawerToggle}
+                        >
+                            <Menu />
+                        </IconButton>
+                    </Hidden>
+                </Toolbar>
+            </AppBar>
+        );
+
+    }
+
+
 }
-
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-  color: PropTypes.oneOf(["primary", "info", "success", "warning", "danger"])
-};
-
+  
 export default withStyles(headerStyle)(Header);

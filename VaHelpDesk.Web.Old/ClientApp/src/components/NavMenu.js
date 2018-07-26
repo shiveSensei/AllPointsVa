@@ -5,9 +5,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 import './NavMenu.css';
 
 export class NavMenu extends Component {
-  displayName = NavMenu.name
+    displayName = NavMenu.name
 
-  render() {
+    render() {
+        console.log(this)
+
     return (
         <Navbar inverse fixedTop fluid collapseOnSelect>
             <Navbar.Header>

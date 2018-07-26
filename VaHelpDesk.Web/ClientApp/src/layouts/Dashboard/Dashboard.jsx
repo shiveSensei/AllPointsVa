@@ -19,25 +19,21 @@ import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboar
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
-const switchRoutes = (
-  <Switch>
-        {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return <Route path={prop.path} component={prop.component} key={key} />;
-    })}
-  </Switch>
-);
+
 
 class App extends React.Component {
   state = {
-    mobileOpen: false
+      mobileOpen: false,
+      query: ''
   };
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
+    handleSearchChange = (query) => {
+        this.setState({ query: query });
+    };
   getRoute() {
-    return this.props.location.pathname !== "/maps";
+    //return this.props.location.pathname !== "/maps";
   }
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -52,11 +48,26 @@ class App extends React.Component {
       }
     }
   }
-  render() {
-    const { classes, ...rest } = this.props;
-    return (
+    render() {
+       // console.log(this)
+        const switchRoutes = (
+            <Switch>
+                {dashboardRoutes.map((prop, key) => {
+                    const Component = prop.component;
+                    const query = this.state.query
+                    if (prop.redirect)
+                        return <Redirect from={prop.path} to={prop.to} key={key} />;
+                    //Using the render function to pass props to the component route is rendering
+                    return <Route path={prop.path} render={() => <Component query={query} />} />
+
+                })}
+            </Switch>
+        );
+      const query = this.state.query;
+      const { classes, ...rest } = this.props;
+      return (
       <div className={classes.wrapper}>
-        <Sidebar
+              <Sidebar
           routes={dashboardRoutes}
           logoText={"Va Helpdesk"}
           logo={logo}
@@ -70,6 +81,8 @@ class App extends React.Component {
           <Header
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
+            handleSearchChange={this.handleSearchChange}
+
             {...rest}
           />
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}

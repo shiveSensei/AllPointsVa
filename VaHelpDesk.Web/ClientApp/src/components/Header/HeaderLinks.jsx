@@ -23,39 +23,36 @@ import headerLinksStyle from "assets/jss/material-dashboard-react/components/hea
 
 class HeaderLinks extends React.Component {
     query = React.createRef();
+    constructor(props) {
+        super(props);
+    }
   state = {
-    open: false
+      open: false
   };
   handleClick = () => {
     this.setState({ open: !this.state.open });
-  };
-
+    };
+ 
+    
   handleClose = () => {
     this.setState({ open: false });
   };
-  render() {
+    render() {
+        const query = this.props.query;
     const { classes } = this.props;
     const { open } = this.state;
-    return (
+      return (
       <div>
-            <div className={classes.searchWrapper}>
-                <Search /> 
+              <div className={classes.searchWrapper}>
+                  <Search
+                      query={query}
+                      handleSearchChange={this.props.handleSearchChange}
+                  /> 
         <Button color="white" aria-label="edit" justIcon round>
           <SearchIcon />
         </Button>
       </div>
-        <Button
-          color={window.innerWidth > 959 ? "transparent" : "white"}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-label="Dashboard"
-          className={classes.buttonLink}
-        >
-          <Dashboard className={classes.icons} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Dashboard</p>
-          </Hidden>
-        </Button>
+       
         <Manager className={classes.manager}>
           <Target>
             <Button

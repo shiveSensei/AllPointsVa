@@ -29,6 +29,7 @@ class FacilitiesTableList extends Component {
         this.state = {
             value: 0,
             facilities: [],
+            query: this.props.query,
             loading: true
         };
 
@@ -36,33 +37,26 @@ class FacilitiesTableList extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ facilities: data, loading: false });
-                // console.log(data);
             });
+    }
+
+    filterData(facilities) {
+        let data = facilities
+        let query = this.props.query.toLowerCase()
+
+        data = data.filter(d => {
+            return d.name.toLowerCase().includes(query)
+        })
+
+        return (data)
     }
 
     renderTable(classes, tableMap, tableData) {
         let data = []
-        if (tableData == this.state.hardwares) {
+        let filteredData = this.filterData(tableData)
 
-            tableData.map((d) => {
-                let entry = [
-                    <div>
-                        <Grid><h2>{d.serial}</h2></Grid>
-
-                        <Button justIcon round color="primary" size="sm" component={Link} redirect="true" to={"/hardwares/" + d.id}>
-                            <DetailsIcon />
-                        </Button>
-                        <Button justIcon round color="danger" size="sm" component={Link} to="">
-                            <DeleteIcon />
-                        </Button></div>,
-                    d.name,
-                    d.facility,
-                    d.partNumId]
-                data.push(entry)
-            })
-        }
-        if (tableData == this.state.facilities) {
-            tableData.map((d) => {
+       
+            filteredData.map((d) => {
                 let entry = [
                     <div>
                         <Grid><h4>{d.name}</h4></Grid>
@@ -80,8 +74,7 @@ class FacilitiesTableList extends Component {
                     d.physicalAddress.zipCode]
                 data.push(entry)
             })
-        }
-
+        
         return (
 
             <Card>

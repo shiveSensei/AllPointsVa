@@ -9,7 +9,7 @@
 const hardwaresTable = {
     metadata: {
         name: "Hardwares",
-        subtext: "Here are the hardwares deployed",
+        subtext: "Add a device",
         color: "success"
     },
     head:["Serial", "Name", "Facility", "Warranty"]

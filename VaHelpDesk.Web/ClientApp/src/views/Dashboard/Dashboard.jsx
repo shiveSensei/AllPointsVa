@@ -56,14 +56,13 @@ class Dashboard extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({ hardwares: data });
-                 console.log(this);
             });
 
         fetch('/api/facilities')
             .then(response => response.json())
             .then(data => {
                 this.setState({ facilities: data, loading: false });
-                // console.log(data);
+                 console.log(this);
             });
 
     }
@@ -228,7 +227,7 @@ class Dashboard extends React.Component {
             </Grid>
 
             <Grid container>
-              <GridItem xs={12} sm={12} md={6}>
+              <GridItem xs={12} sm={12} md={12}>
                 <CustomTabs
                   title="Tasks:"
                   headerColor="primary"
@@ -269,15 +268,7 @@ class Dashboard extends React.Component {
                   ]}
                 />
               </GridItem>
-
-                <GridItem xs={12} sm={12} md={6}>
-                    {this.renderTable(classes, hardwaresTable, this.state.hardwares)}
-                
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                    {this.renderTable(classes, facilitiesTable, this.state.facilities)}
-
-                </GridItem>
+             
             </Grid>
       </div>
     );

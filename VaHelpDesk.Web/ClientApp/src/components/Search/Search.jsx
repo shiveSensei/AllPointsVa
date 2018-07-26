@@ -3,33 +3,31 @@ import TextField from '@material-ui/core/TextField';
 
 
 export default class Search extends Component {
+
     constructor(props) {
         super(props);
-        this.query = React.createRef();
-        this.state = {
-            query: ''
-            
-        };
 
-        this.handleChange = this.handleChange.bind(this);
+        this.handleSearchChange = this.handleSearchChange.bind(this);
 
     }
 
-    handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value })
-       this.query = this.state.query;
-        console.log(this.query)
+    handleSearchChange(e) {
+       // this.setState({ [e.target.name]: e.target.value })
+        //this.query = this.state.query;
+        this.props.handleSearchChange(e.target.value)
     }
 
     render() {
+        const query = this.props.query
+
         return (
 
             <TextField
                 type="text"
                 name="query"
-                value={this.state.query}
-                ref={this.query}
-                onChange={this.handleChange}
+                value={query}
+                ref={this.props.query}
+                onChange={this.handleSearchChange}
             >
             </TextField>
     )

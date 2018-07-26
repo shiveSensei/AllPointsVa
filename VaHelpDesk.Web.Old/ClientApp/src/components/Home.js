@@ -10,7 +10,7 @@ export class Home extends Component {
             hardwares: [],
             loading: true
         };
-
+        console.log(this)
         fetch('api/Hardwares')
             .then(response => response.json())
             .then(data => {

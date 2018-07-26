@@ -42,10 +42,11 @@ const dashboardRoutes = [
     sidebarName: "Hardwares",
     navbarName: "Hardwares",
     icon: Hardwares,
-    component: HardwaresIndex
+      component: HardwaresIndex,
+      props: this.props
     },
     {
-        path: "/addhardwares",
+        path: "/addhardware",
         component: AddHardware,
         invisible: true
     },
