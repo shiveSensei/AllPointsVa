@@ -21,8 +21,6 @@ namespace VaHelpDesk.Web.Api.Models.Hardwares
         public bool Warranty { get; set; } //out of warranty if set to false
 
         public int PartNumId { get; set; }
-        public virtual PartNum PartNum { get; set; }
-
      
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime DeliveryDate { get; set; } //Call this the start of the warranty. Put expected delivery date, update if necessary

@@ -1,15 +1,13 @@
 ﻿using System.Linq;
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
 using VaHelpDesk.Core.Features.Shared;
 using VaHelpDesk.Core.Features.Hardwares;
 using VaHelpDesk.Core.Features.Users;
 using VaHelpDesk.Core.Features.Facilities;
 using VaHelpDesk.Web.Helpers;
 using VaHelpDesk.Core.Features.Categories;
-using System.Collections.Generic;
+using VaHelpDesk.Core.Features.TaskItem;
 
 namespace VaHelpDesk.Web.Data
 {
@@ -72,6 +70,79 @@ namespace VaHelpDesk.Web.Data
             foreach (Facility f in facilities)
             {
                 context.Add(f);
+            }
+            context.SaveChanges();
+
+            var taskItems = new TaskItem[] {
+                new TaskItem
+                {
+                    Name = "Knocking Users Offline",
+                    Details = "Fix weird update issue that's knocking users offline randomly",
+                    IsComplete = false,
+                    List= TaskList.SysAdmin
+                },
+                new TaskItem
+                {
+                    Name = "Update Server",
+                    Details = "New server version was just released, update",
+                    IsComplete = false,
+                    List= TaskList.SysAdmin
+                },
+                new TaskItem
+                {
+                    Name = "Complete Training",
+                    Details = "Sign contract for What are conference organizers afraid of?",
+                    IsComplete = false,
+                    List= TaskList.SysAdmin
+                },
+                new TaskItem
+                {
+                    Name = "Adobe CC suites",
+                    Details = "Get access to the Adobe CC suites",
+                    IsComplete = false,
+                    List= TaskList.WebDev
+                },
+                new TaskItem
+                {
+                    Name = "Make a Decision",
+                    Details = "Decide on using asp.NET or some other framework for website rebuild",
+                    IsComplete = false,
+                    List= TaskList.WebDev
+                },
+                new TaskItem
+                {
+                    Name = "Missing Elete Book",
+                    Details = "Find unit missing in VA 506?",
+                    IsComplete = false,
+                    List= TaskList.VaHelpDesk
+                },
+                new TaskItem
+                {
+                    Name = "Be Innovative!",
+                    Details = "Create 4 Invisible User Experiences you Never Knew About",
+                    IsComplete = false,
+                    List= TaskList.VaHelpDesk
+                },
+                new TaskItem
+                {
+                    Name = "Hit him up",
+                    Details = "Contact Mr. Chow about the bulk issue hes having at VA 321",
+                    IsComplete = false,
+                    List= TaskList.VaHelpDesk
+                },
+                new TaskItem
+                {
+                    Name = "Fix Group Box",
+                    Details = "Why aren't emails coming to the group box",
+                    IsComplete = false,
+                    List= TaskList.VaHelpDesk
+                }
+
+            };
+            foreach (TaskItem t in taskItems)
+            {
+                //add part numbers to Categories
+                context.Add(t);
             }
             context.SaveChanges();
 
@@ -288,24 +359,22 @@ namespace VaHelpDesk.Web.Data
             }
             context.SaveChanges();
 
-          
-
             var hardwares = new Hardware[] {
                 new Hardware
                 {
-                    Serial = 1234567,
+                    Serial = "CND4562LL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
                     PartNumId = partNums.Single(p => p.ProdN == "3AN54UC#ABA").Id,
-                    ShipDate = DateTime.Parse("2018-01-01"),
+                    ShipDate = DateTime.Now.Date,
                     DeliveryDate = DateTime.Parse("2018-01-01"),
                     TrackingNum = 5423345,
                     FacilityId = facilities.Single(f => f.PhysicalAddress.ZipCode == "85723").Id
                 },
                 new Hardware
                 {
-                    Serial = 0988654,
+                    Serial = "CND5213KL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -317,7 +386,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 3476128,
+                    Serial = "CND1209LL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -329,7 +398,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 8792340,
+                    Serial = "CND6893LL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -341,7 +410,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 4477901,
+                    Serial = "CND2945WT",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -353,7 +422,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 8043278,
+                    Serial = "CND5923FK",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -365,7 +434,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 9054268,
+                    Serial = "CND87231ND",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -377,7 +446,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 2376123,
+                    Serial = "CND9021LL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -391,13 +460,10 @@ namespace VaHelpDesk.Web.Data
             };
             foreach (Hardware h in hardwares)
             {
-                h.PartNum = partNums.Single(p => p.Id == h.PartNumId);
-                h.Name = h.PartNum.Name;
-                h.KindId = h.PartNum.KindId;
-                h.CategoryId = h.PartNum.CategoryId;
+                h.Name = partNums.Single(p => p.Id == h.PartNumId).Name;
+                h.KindId = partNums.Single(p => p.Id == h.PartNumId).KindId;
+                h.CategoryId = partNums.Single(p => p.Id == h.PartNumId).CategoryId;
 
-                h.Category = categories.Single(c => c.Id == h.PartNum.CategoryId);
-                h.Kind = kinds.Single(k => k.Id == h.KindId);
 
                 //add warranty end date
                 h.WarrantyEnd = h.ShipDate.AddYears(1);

@@ -38,12 +38,11 @@ class HardwaresTableList extends Component {
             });
     }
 
-    filterData(hardwares) {
-        let data = hardwares
+    filterData(data) {
         let query = this.props.query.toLowerCase()
-
+       
         data = data.filter(d => {
-            return d.name.toLowerCase().includes(query) || d.serial.toString().includes(query)
+            return d.name.toLowerCase().includes(query) || d.serial.toLowerCase().includes(query)
         })
       
         return (data)
@@ -53,26 +52,23 @@ class HardwaresTableList extends Component {
         let filteredData = this.filterData(tableData)
 
         filteredData.map((d) => {
-                let entry = [
-                    <div>
-                        <Grid><h2>{d.serial}</h2></Grid>
-                        
-                        <IconButton component={Link} redirect="true" to={"/hardwares/" + d.id}>
-                            <DetailsIcon />
-                        </IconButton>
-                        <IconButton component={Link} to="">
-                            <DeleteIcon />
-                        </IconButton>
-                    </div>,
-                    d.name,
-                    d.facility,
-                    d.partNumId]
+            let entry = [
+                <div>
+                    <Grid><h2>{d.serial}</h2></Grid>
+
+                    <IconButton component={Link} redirect="true" to={"/hardwares/" + d.id}>
+                        <DetailsIcon />
+                    </IconButton>
+                    <IconButton component={Link} to="">
+                        <DeleteIcon />
+                    </IconButton>
+                </div>,
+                d.name,
+                Date(d.warrantyEnd)]
 
                 data.push(entry)
             })
-        console.log(data)
-
-        
+       
         return (
            
             <Card>

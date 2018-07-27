@@ -12,7 +12,7 @@ const hardwaresTable = {
         subtext: "Add a device",
         color: "success"
     },
-    head:["Serial", "Name", "Facility", "Warranty"]
+    head:["Serial", "Name", "Warranty End Date"]
 
 };
 

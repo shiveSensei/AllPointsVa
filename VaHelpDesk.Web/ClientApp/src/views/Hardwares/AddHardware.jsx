@@ -31,19 +31,18 @@ class AddHardware extends Component {
         super(props);
 
         this.state = {
-            value: 0,
             hardwares: [],
             partNums: [],
             facilities: [],
             kinds: [],
             categories: [],
-            name: '',
-            serial: '123',
-            partNumId: 2,
-            delDate: '',
-            facility: '',
-            cat: '',
-            kind: '',
+            serial: '',
+            partNumId: '',
+            facilityId: '',
+            categoryId: '',
+            kindId: '',
+      
+          
             response: '',
             loading: true
         };
@@ -81,29 +80,28 @@ class AddHardware extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this.state.partNums)
+
         //Build new hardware object from state
         let newHardware = {
-            "name": this.state.partNums.find((p) => p.id === this.state.partNumId).name,
+            "name": this.state.partNums.find((p) => p.id == this.state.partNumId).name,
             "serial": this.state.serial,
             "class": "hardware",
             "inService": false,
             "warranty": true,
             "partNumId": this.state.partNumId,
-            //"partNum": {}, //finish this logic
             "deliveryDate": "2018-07-19T16:22:56.495Z",
             "warrantyEnd": "2018-07-19T16:22:56.495Z",
             "trackingNum": 2345,
             "facilityId": this.state.facilityId,
             "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
             "kindId": this.state.partNums.find((p) => p.id == this.state.partNumId).kindId
-            //"facility": this.state.facilities.filter((f) => f.id == this.state.facilityId)
-            //"category": this.state.categories.filter((c) => c.id == this.state.categoryId),
-            //"kind": this.state.kinds.filter((k) => k.id == this.state.kindId)
+            //"facility": this.state.facilities.find((f) => f.id == this.state.facilityId)
+            //"category": this.state.categories.find((c) => c.id == this.state.categoryId),
+            //"kind": this.state.kinds.find((k) => k.id == this.state.kindId)
         };
+        console.log(newHardware)
 
         //newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
-        console.log(newHardware);
 
         //Post to api route
         fetch('/api/hardwares', {
@@ -115,37 +113,19 @@ class AddHardware extends Component {
             body: JSON.stringify(newHardware)
         }).then(response => {
             if (response.status >= 400) {
-                // console.log(response);
-                //  throw new Error('Throw Error');
+                 console.log(response);
+                  throw new Error('Throw Error');
             }
 
             this.setState({ response: response, loading: false });
             console.log('State: ', this.state.response);
 
-            //   return (response.json());
+               return (response.json());
         })
 
 
     }
     renderForm(props, facilities, partNums) {
-        const currencies = [
-            {
-                value: 'USD',
-                label: '1',
-            },
-            {
-                value: 'EUR',
-                label: '2',
-            },
-            {
-                value: 'BTC',
-                label: '3',
-            },
-            {
-                value: 'JPY',
-                label: '4',
-            },
-        ];
 
     const { classes } = props;
     return (
@@ -176,28 +156,12 @@ class AddHardware extends Component {
 
                                     />
                                 </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                    <CustomInput
-                                        labelText="Device Name"
-                                        id="device-name"
-                                        formControlProps={{
-                                            fullWidth: true,
-
-                                        }}
-                                        inputProps={{
-                                            name: "name",
-                                            value: this.state.name,
-                                            onChange: this.handleChange,
-
-
-                                        }}
-                                    />
-                                </GridItem>
+                                
                             </Grid>
                             <Grid container>
                                 <GridItem xs={12} sm={12} md={6}>
                                     <TextField
-                                        id="partNumId"
+                                        name="partNumId"
                                         select
                                         label="Part Number"
                                         value={this.state.partNumId}
@@ -208,13 +172,12 @@ class AddHardware extends Component {
                                                 // className: classes.menu,
                                             },
                                         }}
-                                        helperText="Select a part Number"
+                                        helperText="Select a Part Number"
                                         margin="normal"
                                     >
-                                        {partNums.map(option => (
-                                            <option key={option.value} value={option.value}>
-                                                {option.name}
-                                            </option>
+                                        <option value="select">Select..</option>
+                                        {partNums.map(partNum => (
+                                            <option value={partNum.id}> {partNum.name} </option>
                                         ))}
                                     </TextField>
 
@@ -222,24 +185,23 @@ class AddHardware extends Component {
                                 <GridItem xs={12} sm={12} md={6}>
 
                                     <TextField
-                                        id="facility"
+                                        id="facilityId"
+                                        name="facilityId"
                                         select
                                         label="Facility"
                                         value={this.state.facilityId}
                                         onChange={this.handleChange}
+                                        margin="normal"
                                         SelectProps={{
                                             native: true,
                                             MenuProps: {
-                                               // className: classes.menu,
+                                                // className: classes.menu,
                                             },
                                         }}
-                                        helperText="Select a facility"
-                                        margin="normal"
                                     >
-                                        {facilities.map(option => (
-                                            <option key={option.value} value={option.value}>
-                                                {option.name}
-                                            </option>
+                                        <option value="select">Select..</option>
+                                        {facilities.map(facility => (
+                                            <option value={facility.id}> {facility.name} </option>
                                         ))}
                                     </TextField>
                                       
@@ -252,7 +214,7 @@ class AddHardware extends Component {
                           
                         </CardBody>
                         <CardFooter>
-                            <Button color="primary">Submit</Button>
+                            <Button color="primary" type="submit" onClick={this.handleSubmit}>Submit</Button>
                         </CardFooter>
                     </Card>
                 </GridItem>

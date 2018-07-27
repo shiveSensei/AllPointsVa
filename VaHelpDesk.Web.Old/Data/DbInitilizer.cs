@@ -293,7 +293,7 @@ namespace VaHelpDesk.Web.Data
             var hardwares = new Hardware[] {
                 new Hardware
                 {
-                    Serial = 1234567,
+                    Serial = "CND123#ABA",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -305,7 +305,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 0988654,
+                    Serial = "CND6546535BA",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -317,7 +317,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 3476128,
+                    Serial = "CND455G2CC",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -329,7 +329,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 8792340,
+                    Serial = "CND542ET8LL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -341,7 +341,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 4477901,
+                    Serial = "CND1079WT43N",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -353,7 +353,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 8043278,
+                    Serial = "CND6626FLL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -365,7 +365,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 9054268,
+                    Serial = "CND5328LK",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -377,7 +377,7 @@ namespace VaHelpDesk.Web.Data
                 },
                 new Hardware
                 {
-                    Serial = 2376123,
+                    Serial = "CND696TF3KL",
                     Class = "Hardware",
                     InService = false,
                     Warranty = true,
@@ -391,14 +391,11 @@ namespace VaHelpDesk.Web.Data
             };
             foreach (Hardware h in hardwares)
             {
-                h.PartNum = partNums.Single(p => p.Id == h.PartNumId);
-                h.Name = h.PartNum.Name;
-                h.KindId = h.PartNum.KindId;
-                h.CategoryId = h.PartNum.CategoryId;
+                h.Name = partNums.Single(p => p.Id == h.PartNumId).Name;
+                h.KindId = partNums.Single(p => p.Id == h.PartNumId).KindId;
+                h.CategoryId = partNums.Single(p => p.Id == h.PartNumId).CategoryId;
 
-                h.Category = categories.Single(c => c.Id == h.PartNum.CategoryId);
-                h.Kind = kinds.Single(k => k.Id == h.KindId);
-
+               
                 //add warranty end date
                 h.WarrantyEnd = h.ShipDate.AddYears(1);
                 context.Add(h);

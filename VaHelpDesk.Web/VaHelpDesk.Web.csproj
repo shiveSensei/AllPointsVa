@@ -12,12 +12,24 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180726233822_TasksItems.cs" />
+    <Compile Remove="Migrations\20180726233822_TasksItems.Designer.cs" />
+    <Compile Remove="Migrations\20180726234132_TasksItems.cs" />
+    <Compile Remove="Migrations\20180726234132_TasksItems.Designer.cs" />
+    <Compile Remove="Migrations\20180727132127_TasksItemsAndStringSerials.cs" />
+    <Compile Remove="Migrations\20180727132127_TasksItemsAndStringSerials.Designer.cs" />
+    <Compile Remove="Migrations\20180727165922_BetterHardware.cs" />
+    <Compile Remove="Migrations\20180727165922_BetterHardware.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

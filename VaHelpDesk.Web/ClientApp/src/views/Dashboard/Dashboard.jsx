@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
         this.state = {
             value: 0,
             hardwares: [],
-            facilities: [],
+            tasks: [],
             loading: true
         };
 
@@ -58,11 +58,11 @@ class Dashboard extends React.Component {
                 this.setState({ hardwares: data });
             });
 
-        fetch('/api/facilities')
+        fetch('/api/taskitems')
             .then(response => response.json())
             .then(data => {
-                this.setState({ facilities: data, loading: false });
-                 console.log(this);
+                this.setState({ tasks: data, loading: false });
+                 console.log(this.state);
             });
 
     }
