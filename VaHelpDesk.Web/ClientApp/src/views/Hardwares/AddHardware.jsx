@@ -41,8 +41,7 @@ class AddHardware extends Component {
             facilityId: '',
             categoryId: '',
             kindId: '',
-      
-          
+            date: '',
             response: '',
             loading: true
         };
@@ -89,8 +88,7 @@ class AddHardware extends Component {
             "inService": false,
             "warranty": true,
             "partNumId": this.state.partNumId,
-            "deliveryDate": "2018-07-19T16:22:56.495Z",
-            "warrantyEnd": "2018-07-19T16:22:56.495Z",
+            "deliveryDate": this.state.date,
             "trackingNum": 2345,
             "facilityId": this.state.facilityId,
             "categoryId": this.state.partNums.find((p) => p.id == this.state.partNumId).categoryId,
@@ -99,6 +97,13 @@ class AddHardware extends Component {
             //"category": this.state.categories.find((c) => c.id == this.state.categoryId),
             //"kind": this.state.kinds.find((k) => k.id == this.state.kindId)
         };
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+        var date = new Date(newHardware.deliveryDate);
+        newHardware.warrantyEnd = date.addDays(7);
         console.log(newHardware)
 
         //newHardware.partNum = this.state.partNums.find((p) => p.id == this.state.partNumId);
@@ -155,6 +160,22 @@ class AddHardware extends Component {
                                         }}
 
                                     />
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={3}>
+
+                                    <TextField
+                                        id="date"
+                                        name="date"
+                                        label="Shipping Date"
+                                        type="date"
+                                        defaultValue="2017-05-24"
+                                        onChange={this.handleChange}
+                                        value={this.state.date}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                    />
+                                   
                                 </GridItem>
                                 
                             </Grid>

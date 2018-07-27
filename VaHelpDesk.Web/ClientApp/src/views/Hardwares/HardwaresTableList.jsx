@@ -50,8 +50,10 @@ class HardwaresTableList extends Component {
     renderTable(classes, tableMap, tableData) {
         let data = []
         let filteredData = this.filterData(tableData)
-
+             
         filteredData.map((d) => {
+            //turn JSON string date into a JS Date object
+            var date = new Date(d.warrantyEnd);
             let entry = [
                 <div>
                     <Grid><h2>{d.serial}</h2></Grid>
@@ -64,7 +66,8 @@ class HardwaresTableList extends Component {
                     </IconButton>
                 </div>,
                 d.name,
-                Date(d.warrantyEnd)]
+                //toLocaleDateString formats the date to m/dd/yyyy
+                date.toLocaleDateString()]
 
                 data.push(entry)
             })
