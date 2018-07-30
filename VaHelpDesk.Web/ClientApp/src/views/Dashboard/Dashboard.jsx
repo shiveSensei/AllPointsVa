@@ -70,7 +70,39 @@ class Dashboard extends React.Component {
     handleChange = (event, value) => {
     this.setState({ value });
   };
+    handleTasks(tasks) {
+        let web = []
+        let helpdesk = []
+        let server = []
+        let indexes = []
+        tasks.map((d) => {
+            console.log(d.list)
+            if (d.list ==0) {
+                let entry = [d.details]
+                web.push(entry)
+            }
+            if (d.list == 1) {
+                let entry = [d.details]
+                helpdesk.push(entry)
+            }
+            if (d.list == 2) {
+                let entry = [d.details]
+                server.push(entry)
+            }
+            
+        })
 
+        for (var i = 0; i < tasks.length; i++) {
+            indexes.push(i);
+        }
+        return {
+            indexes: indexes,
+            web: web,
+            helpdesk: helpdesk,
+            server: server
+        }
+
+    }
     handleChangeIndex = index => {
     this.setState({ value: index });
   };
@@ -194,6 +226,7 @@ class Dashboard extends React.Component {
         )
     }
     render() {
+        let taskData = this.handleTasks(this.state.tasks)
         let inService = this.state.hardwares.filter((h) => !h.inService); //set this to h.inService when full data model is implemented
     const { classes } = this.props;
     return (
@@ -237,9 +270,9 @@ class Dashboard extends React.Component {
                       tabIcon: BugReport,
                       tabContent: (
                         <Tasks
-                          checkedIndexes={[0, 3]}
-                          tasksIndexes={[0, 1, 2, 3]}
-                          tasks={helpdesk}
+                              checkedIndexes={[]}
+                              tasksIndexes={taskData.indexes}
+                              tasks={taskData.helpdesk}
                         />
                       )
                     },
@@ -248,9 +281,9 @@ class Dashboard extends React.Component {
                       tabIcon: Code,
                       tabContent: (
                         <Tasks
-                          checkedIndexes={[0]}
-                          tasksIndexes={[0, 1]}
-                          tasks={website}
+                          checkedIndexes={[]}
+                              tasksIndexes={taskData.indexes}
+                              tasks={taskData.web}
                         />
                       )
                     },
@@ -259,9 +292,9 @@ class Dashboard extends React.Component {
                       tabIcon: Cloud,
                       tabContent: (
                         <Tasks
-                          checkedIndexes={[1]}
-                          tasksIndexes={[0, 1, 2]}
-                          tasks={server}
+                          checkedIndexes={[]}
+                              tasksIndexes={taskData.indexes}
+                              tasks={taskData.server}
                         />
                       )
                     }
