@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
 using System.Reflection;
+using VaHelpDesk.Core.Features.Users;
 using VaHelpDesk.Web.Data;
 
 namespace VaHelpDesk.Web
@@ -32,7 +34,20 @@ namespace VaHelpDesk.Web
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, DataContext>(); // note: we do this so we can use the project-agnostic "DbContext" in our controllers/services
+            
+            //Identity Stuff + cookie based auth
+            //adds scoped classes
+            //Auto adds validated user to cookie to the HttpContext.User
+            //https://github.com/aspnet/Identity/blob/master/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
+            services.AddIdentity<User, IdentityRole>()
 
+                //Adds UserStore and RoleStore from this context to be consumed by UserManager and RoleManager
+                .AddEntityFrameworkStores<DataContext>()
+
+                //Adds a provider that generates unique keys and hashes for things like forgot password links, phone number verfication etc..
+                .AddDefaultTokenProviders();
+
+            //TODO: Change login URL
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -83,6 +98,9 @@ namespace VaHelpDesk.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // Setup Identity
+            app.UseAuthentication();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();

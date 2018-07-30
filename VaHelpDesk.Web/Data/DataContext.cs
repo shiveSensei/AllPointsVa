@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using VaHelpDesk.Core.Features.Categories;
 using VaHelpDesk.Core.Features.Facilities;
 using VaHelpDesk.Core.Features.Hardwares;
@@ -8,12 +9,11 @@ using VaHelpDesk.Core.Features.Users;
 
 namespace VaHelpDesk.Web.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<User> Users { get; set; }
         public DbSet<Hardware> Hardwares { get; set; }
         public DbSet<Kind> Kinds { get; set; }
         public DbSet<Facility> Facilities { get; set; }
@@ -23,7 +23,9 @@ namespace VaHelpDesk.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("User");
+            //this line maps keys of Identity Tables
+            base.OnModelCreating(modelBuilder);
+            // modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Hardware>().ToTable("Hardware");
             modelBuilder.Entity<Kind>().ToTable("Kind");
             modelBuilder.Entity<Facility>().ToTable("Facility");

@@ -1,15 +1,10 @@
-﻿using VaHelpDesk.Core.Features.Shared;
+﻿using Microsoft.AspNetCore.Identity;
+using VaHelpDesk.Core.Features.Shared;
 
 namespace VaHelpDesk.Core.Features.Users
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
 
-        public string Email { get; set; }
-
-        public string Password { get; set; }
-
-        public string Role { get; set; }
     }
 }

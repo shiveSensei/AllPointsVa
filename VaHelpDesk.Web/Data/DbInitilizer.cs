@@ -345,19 +345,19 @@ namespace VaHelpDesk.Web.Data
             }
             context.SaveChanges();
             
-            var users = new User[] {
-                new User
-                {
-                    Email = $"admin@allpointsllc.com",
-                    Password = CryptoHelpers.HashPassword("password"),
-                    Role = "Admin"
-                }
-            };
-            foreach(User u in users)
-            {
-                context.Add(u);
-            }
-            context.SaveChanges();
+            //var users = new User[] {
+            //    new User
+            //    {
+            //        Email = $"admin@allpointsllc.com",
+            //        Password = CryptoHelpers.HashPassword("password"),
+            //        Role = "Admin"
+            //    }
+            //};
+            //foreach(User u in users)
+            //{
+            //    context.Add(u);
+            //}
+            //context.SaveChanges();
 
             var hardwares = new Hardware[] {
                 new Hardware
